@@ -1,0 +1,60 @@
+.report-page {
+  --data-app-content-width: var(--data-app-report-evidence-width);
+  --data-app-layout-gutter: var(--data-app-report-gutter);
+  max-width: calc(var(--data-app-content-width) + 2 * var(--data-app-layout-gutter));
+  margin-inline: auto;
+  padding: 48px var(--data-app-layout-gutter) 120px;
+}
+
+.cost-report {
+  display: grid;
+  width: 100%;
+  gap: 44px;
+}
+
+.report-hero { display: grid; gap: 16px; }
+.report-hero h1 {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1.08;
+  font-weight: 650;
+  letter-spacing: -.035em;
+}
+
+.report-deck { max-width: 820px; color: var(--secondary); }
+.report-summary-lead { font-size: 17px; line-height: 1.7; }
+.report-summary-lead li + li { margin-top: 10px; }
+
+.report-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.report-section { display: grid; min-width: 0; gap: 24px; }
+.report-section .rich-narrative-content { max-width: 860px; line-height: 1.68; }
+.report-section .rich-narrative-content h2 { margin: 0 0 12px; font-size: 24px; line-height: 1.25; }
+.report-section .rich-narrative-content p { margin: 0; color: var(--secondary); }
+
+.cost-report .dashboard-component[data-component-kind="chart"],
+.cost-report .dashboard-component[data-component-kind="table"] {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.report-methods {
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+.report-methods .rich-narrative-content { font-size: 14px; }
+
+@media (max-width: 760px) {
+  .report-page { padding-top: 28px; }
+  .cost-report { gap: 32px; }
+  .report-facts { grid-template-columns: minmax(0, 1fr); }
+  .cost-report .dashboard-component[data-component-kind="chart"],
+  .cost-report .dashboard-component[data-component-kind="table"] { padding: 14px; }
+}

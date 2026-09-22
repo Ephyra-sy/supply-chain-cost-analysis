@@ -1,0 +1,231 @@
+{
+  "dataset": "Microsoft AdventureWorks OLTP install-script CSV snapshot",
+  "source_repository": "https://github.com/microsoft/sql-server-samples",
+  "source_directory": "https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/adventure-works/oltp-install-script",
+  "schema_source": "https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/databases/adventure-works/oltp-install-script/instawdb.sql",
+  "downloaded_at": "2026-09-22",
+  "format": {
+    "encoding": "UTF-8",
+    "delimiter": "\\t",
+    "header": false,
+    "null_representation": "empty field",
+    "line_ending": "LF"
+  },
+  "tables": {
+    "Product": {
+      "source_table": "Production.Product",
+      "primary_key": ["ProductID"],
+      "columns": [
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "Name", "type": "nvarchar(50)", "nullable": false},
+        {"name": "ProductNumber", "type": "nvarchar(25)", "nullable": false},
+        {"name": "MakeFlag", "type": "bit", "nullable": false},
+        {"name": "FinishedGoodsFlag", "type": "bit", "nullable": false},
+        {"name": "Color", "type": "nvarchar(15)", "nullable": true},
+        {"name": "SafetyStockLevel", "type": "smallint", "nullable": false},
+        {"name": "ReorderPoint", "type": "smallint", "nullable": false},
+        {"name": "StandardCost", "type": "money", "nullable": false},
+        {"name": "ListPrice", "type": "money", "nullable": false},
+        {"name": "Size", "type": "nvarchar(5)", "nullable": true},
+        {"name": "SizeUnitMeasureCode", "type": "nchar(3)", "nullable": true},
+        {"name": "WeightUnitMeasureCode", "type": "nchar(3)", "nullable": true},
+        {"name": "Weight", "type": "decimal(8,2)", "nullable": true},
+        {"name": "DaysToManufacture", "type": "int", "nullable": false},
+        {"name": "ProductLine", "type": "nchar(2)", "nullable": true},
+        {"name": "Class", "type": "nchar(2)", "nullable": true},
+        {"name": "Style", "type": "nchar(2)", "nullable": true},
+        {"name": "ProductSubcategoryID", "type": "int", "nullable": true},
+        {"name": "ProductModelID", "type": "int", "nullable": true},
+        {"name": "SellStartDate", "type": "datetime", "nullable": false},
+        {"name": "SellEndDate", "type": "datetime", "nullable": true},
+        {"name": "DiscontinuedDate", "type": "datetime", "nullable": true},
+        {"name": "rowguid", "type": "uniqueidentifier", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "ProductCostHistory": {
+      "source_table": "Production.ProductCostHistory",
+      "primary_key": ["ProductID", "StartDate"],
+      "columns": [
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "StartDate", "type": "datetime", "nullable": false},
+        {"name": "EndDate", "type": "datetime", "nullable": true},
+        {"name": "StandardCost", "type": "money", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "BillOfMaterials": {
+      "source_table": "Production.BillOfMaterials",
+      "primary_key": ["BillOfMaterialsID"],
+      "columns": [
+        {"name": "BillOfMaterialsID", "type": "int", "nullable": false},
+        {"name": "ProductAssemblyID", "type": "int", "nullable": true},
+        {"name": "ComponentID", "type": "int", "nullable": false},
+        {"name": "StartDate", "type": "datetime", "nullable": false},
+        {"name": "EndDate", "type": "datetime", "nullable": true},
+        {"name": "UnitMeasureCode", "type": "nchar(3)", "nullable": false},
+        {"name": "BOMLevel", "type": "smallint", "nullable": false},
+        {"name": "PerAssemblyQty", "type": "decimal(8,2)", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "ProductInventory": {
+      "source_table": "Production.ProductInventory",
+      "primary_key": ["ProductID", "LocationID"],
+      "columns": [
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "LocationID", "type": "smallint", "nullable": false},
+        {"name": "Shelf", "type": "nvarchar(10)", "nullable": false},
+        {"name": "Bin", "type": "tinyint", "nullable": false},
+        {"name": "Quantity", "type": "smallint", "nullable": false},
+        {"name": "rowguid", "type": "uniqueidentifier", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "Location": {
+      "source_table": "Production.Location",
+      "primary_key": ["LocationID"],
+      "columns": [
+        {"name": "LocationID", "type": "smallint", "nullable": false},
+        {"name": "Name", "type": "nvarchar(50)", "nullable": false},
+        {"name": "CostRate", "type": "smallmoney", "nullable": false},
+        {"name": "Availability", "type": "decimal(8,2)", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "TransactionHistory": {
+      "source_table": "Production.TransactionHistory",
+      "primary_key": ["TransactionID"],
+      "columns": [
+        {"name": "TransactionID", "type": "int", "nullable": false},
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "ReferenceOrderID", "type": "int", "nullable": false},
+        {"name": "ReferenceOrderLineID", "type": "int", "nullable": false},
+        {"name": "TransactionDate", "type": "datetime", "nullable": false},
+        {"name": "TransactionType", "type": "nchar(1)", "nullable": false},
+        {"name": "Quantity", "type": "int", "nullable": false},
+        {"name": "ActualCost", "type": "money", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "WorkOrder": {
+      "source_table": "Production.WorkOrder",
+      "primary_key": ["WorkOrderID"],
+      "columns": [
+        {"name": "WorkOrderID", "type": "int", "nullable": false},
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "OrderQty", "type": "int", "nullable": false},
+        {"name": "StockedQty", "type": "int", "nullable": false, "computed": true},
+        {"name": "ScrappedQty", "type": "smallint", "nullable": false},
+        {"name": "StartDate", "type": "datetime", "nullable": false},
+        {"name": "EndDate", "type": "datetime", "nullable": true},
+        {"name": "DueDate", "type": "datetime", "nullable": false},
+        {"name": "ScrapReasonID", "type": "smallint", "nullable": true},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "WorkOrderRouting": {
+      "source_table": "Production.WorkOrderRouting",
+      "primary_key": ["WorkOrderID", "ProductID", "OperationSequence"],
+      "columns": [
+        {"name": "WorkOrderID", "type": "int", "nullable": false},
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "OperationSequence", "type": "smallint", "nullable": false},
+        {"name": "LocationID", "type": "smallint", "nullable": false},
+        {"name": "ScheduledStartDate", "type": "datetime", "nullable": false},
+        {"name": "ScheduledEndDate", "type": "datetime", "nullable": false},
+        {"name": "ActualStartDate", "type": "datetime", "nullable": true},
+        {"name": "ActualEndDate", "type": "datetime", "nullable": true},
+        {"name": "ActualResourceHrs", "type": "decimal(9,4)", "nullable": true},
+        {"name": "PlannedCost", "type": "money", "nullable": false},
+        {"name": "ActualCost", "type": "money", "nullable": true},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "ScrapReason": {
+      "source_table": "Production.ScrapReason",
+      "primary_key": ["ScrapReasonID"],
+      "columns": [
+        {"name": "ScrapReasonID", "type": "smallint", "nullable": false},
+        {"name": "Name", "type": "nvarchar(50)", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "Vendor": {
+      "source_table": "Purchasing.Vendor",
+      "primary_key": ["BusinessEntityID"],
+      "columns": [
+        {"name": "BusinessEntityID", "type": "int", "nullable": false},
+        {"name": "AccountNumber", "type": "nvarchar(15)", "nullable": false},
+        {"name": "Name", "type": "nvarchar(50)", "nullable": false},
+        {"name": "CreditRating", "type": "tinyint", "nullable": false},
+        {"name": "PreferredVendorStatus", "type": "bit", "nullable": false},
+        {"name": "ActiveFlag", "type": "bit", "nullable": false},
+        {"name": "PurchasingWebServiceURL", "type": "nvarchar(1024)", "nullable": true},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "ProductVendor": {
+      "source_table": "Purchasing.ProductVendor",
+      "primary_key": ["ProductID", "BusinessEntityID"],
+      "columns": [
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "BusinessEntityID", "type": "int", "nullable": false},
+        {"name": "AverageLeadTime", "type": "int", "nullable": false},
+        {"name": "StandardPrice", "type": "money", "nullable": false},
+        {"name": "LastReceiptCost", "type": "money", "nullable": true},
+        {"name": "LastReceiptDate", "type": "datetime", "nullable": true},
+        {"name": "MinOrderQty", "type": "int", "nullable": false},
+        {"name": "MaxOrderQty", "type": "int", "nullable": false},
+        {"name": "OnOrderQty", "type": "int", "nullable": true},
+        {"name": "UnitMeasureCode", "type": "nchar(3)", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "PurchaseOrderHeader": {
+      "source_table": "Purchasing.PurchaseOrderHeader",
+      "primary_key": ["PurchaseOrderID"],
+      "columns": [
+        {"name": "PurchaseOrderID", "type": "int", "nullable": false},
+        {"name": "RevisionNumber", "type": "tinyint", "nullable": false},
+        {"name": "Status", "type": "tinyint", "nullable": false},
+        {"name": "EmployeeID", "type": "int", "nullable": false},
+        {"name": "VendorID", "type": "int", "nullable": false},
+        {"name": "ShipMethodID", "type": "int", "nullable": false},
+        {"name": "OrderDate", "type": "datetime", "nullable": false},
+        {"name": "ShipDate", "type": "datetime", "nullable": true},
+        {"name": "SubTotal", "type": "money", "nullable": false},
+        {"name": "TaxAmt", "type": "money", "nullable": false},
+        {"name": "Freight", "type": "money", "nullable": false},
+        {"name": "TotalDue", "type": "money", "nullable": false, "computed": true},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "PurchaseOrderDetail": {
+      "source_table": "Purchasing.PurchaseOrderDetail",
+      "primary_key": ["PurchaseOrderID", "PurchaseOrderDetailID"],
+      "columns": [
+        {"name": "PurchaseOrderID", "type": "int", "nullable": false},
+        {"name": "PurchaseOrderDetailID", "type": "int", "nullable": false},
+        {"name": "DueDate", "type": "datetime", "nullable": false},
+        {"name": "OrderQty", "type": "smallint", "nullable": false},
+        {"name": "ProductID", "type": "int", "nullable": false},
+        {"name": "UnitPrice", "type": "money", "nullable": false},
+        {"name": "LineTotal", "type": "money", "nullable": false, "computed": true},
+        {"name": "ReceivedQty", "type": "decimal(8,2)", "nullable": false},
+        {"name": "RejectedQty", "type": "decimal(8,2)", "nullable": false},
+        {"name": "StockedQty", "type": "decimal(9,2)", "nullable": false, "computed": true},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    },
+    "UnitMeasure": {
+      "source_table": "Production.UnitMeasure",
+      "primary_key": ["UnitMeasureCode"],
+      "columns": [
+        {"name": "UnitMeasureCode", "type": "nchar(3)", "nullable": false},
+        {"name": "Name", "type": "nvarchar(50)", "nullable": false},
+        {"name": "ModifiedDate", "type": "datetime", "nullable": false}
+      ]
+    }
+  }
+}

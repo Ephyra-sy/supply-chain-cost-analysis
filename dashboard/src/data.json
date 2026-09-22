@@ -1,0 +1,952 @@
+{
+  "surface": "dashboard",
+  "title": "制造成本管控看板",
+  "generatedAt": "2026-09-22T08:05:08.383245+00:00",
+  "buildStatus": "complete",
+  "status": "reviewed_portfolio_sample",
+  "filters": [
+    {
+      "id": "month",
+      "label": "月份",
+      "field": "month",
+      "defaultValue": "all"
+    }
+  ],
+  "queries": {
+    "executive_summary": {
+      "rows": [
+        {
+          "budget_amount": 133535504.69999999,
+          "actual_amount": 126567204.91,
+          "budget_execution_rate": 0.9478168760761048,
+          "red_warning_cells": 26,
+          "inventory_match_rate": 0.9420018709073901,
+          "inventory_absolute_variance": 23857.643799999994,
+          "scrap_loss_amount": 359947.1751,
+          "purchase_price_variance": 20544567.3085,
+          "purchase_rows_excluded_zero_standard_cost": 6892,
+          "high_risk_projects": 4,
+          "project_count": 10,
+          "forecast_project_overrun": 1847129.0212356756
+        }
+      ],
+      "source": {
+        "label": "Manufacturing cost control summary",
+        "tables": [
+          "data/processed/*.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [
+          {
+            "label": "预算执行率",
+            "definition": "仿真费用实际额合计 ÷ 仿真预算额合计。",
+            "componentIds": [
+              "kpi-budget",
+              "report-summary"
+            ]
+          },
+          {
+            "label": "账实相符率",
+            "definition": "盘点数量等于账面数量的库位产品记录数 ÷ 全部盘点记录数。",
+            "componentIds": [
+              "kpi-inventory",
+              "inventory-location"
+            ]
+          },
+          {
+            "label": "高风险项目",
+            "definition": "成本消耗快于进度15个百分点或预计完工成本超目标的仿真项目。",
+            "componentIds": [
+              "kpi-project",
+              "project-risk"
+            ]
+          }
+        ],
+        "classification": "mixed_sample_and_scenario"
+      }
+    },
+    "monthly_budget": {
+      "rows": [
+        {
+          "month": "2026-01-01",
+          "budget_amount": 9346243.31,
+          "actual_amount": 8797281.41,
+          "red_cells": 2,
+          "variance_amount": -548961.9000000004,
+          "execution_rate": 0.9412638980399066
+        },
+        {
+          "month": "2026-02-01",
+          "budget_amount": 9265821.52,
+          "actual_amount": 8725733.18,
+          "red_cells": 2,
+          "variance_amount": -540088.3399999999,
+          "execution_rate": 0.9417117695571585
+        },
+        {
+          "month": "2026-03-01",
+          "budget_amount": 9685821.76,
+          "actual_amount": 9076532.91,
+          "red_cells": 2,
+          "variance_amount": -609288.8499999996,
+          "execution_rate": 0.937094769540752
+        },
+        {
+          "month": "2026-04-01",
+          "budget_amount": 10266863.85,
+          "actual_amount": 9539016.59,
+          "red_cells": 2,
+          "variance_amount": -727847.2599999998,
+          "execution_rate": 0.9291071479437218
+        },
+        {
+          "month": "2026-05-01",
+          "budget_amount": 10737386.14,
+          "actual_amount": 10312761.73,
+          "red_cells": 2,
+          "variance_amount": -424624.41000000015,
+          "execution_rate": 0.9604536518978165
+        },
+        {
+          "month": "2026-06-01",
+          "budget_amount": 10489655.63,
+          "actual_amount": 9783497.56,
+          "red_cells": 2,
+          "variance_amount": -706158.0700000003,
+          "execution_rate": 0.9326805288077888
+        },
+        {
+          "month": "2026-07-01",
+          "budget_amount": 11438722.88,
+          "actual_amount": 10693809.17,
+          "red_cells": 2,
+          "variance_amount": -744913.7100000009,
+          "execution_rate": 0.9348778952148196
+        },
+        {
+          "month": "2026-08-01",
+          "budget_amount": 11800838.19,
+          "actual_amount": 11349456.040000001,
+          "red_cells": 3,
+          "variance_amount": -451382.1499999985,
+          "execution_rate": 0.9617499924384609
+        },
+        {
+          "month": "2026-09-01",
+          "budget_amount": 12103739.129999999,
+          "actual_amount": 11527868.86,
+          "red_cells": 2,
+          "variance_amount": -575870.2699999996,
+          "execution_rate": 0.9524221181723371
+        },
+        {
+          "month": "2026-10-01",
+          "budget_amount": 12453601.95,
+          "actual_amount": 11923538.45,
+          "red_cells": 2,
+          "variance_amount": -530063.5,
+          "execution_rate": 0.9574369325334026
+        },
+        {
+          "month": "2026-11-01",
+          "budget_amount": 12834393.83,
+          "actual_amount": 12284185.23,
+          "red_cells": 2,
+          "variance_amount": -550208.5999999996,
+          "execution_rate": 0.9571301451951783
+        },
+        {
+          "month": "2026-12-01",
+          "budget_amount": 13112416.51,
+          "actual_amount": 12553523.78,
+          "red_cells": 3,
+          "variance_amount": -558892.7300000004,
+          "execution_rate": 0.9573768321366417
+        }
+      ],
+      "source": {
+        "label": "月度预算与费用场景",
+        "tables": [
+          "monthly_budget.csv",
+          "expense_ledger.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario"
+      }
+    },
+    "department_budget": {
+      "rows": [
+        {
+          "department": "生产一部",
+          "budget_amount": 22117826.92,
+          "actual_amount": 25528219.6,
+          "red_cells": 25,
+          "variance_amount": 3410392.6799999997,
+          "execution_rate": 1.1541920321709436
+        },
+        {
+          "department": "仓储部",
+          "budget_amount": 22464037.3,
+          "actual_amount": 20547137.830000002,
+          "red_cells": 0,
+          "variance_amount": -1916899.4699999988,
+          "execution_rate": 0.9146680783867823
+        },
+        {
+          "department": "质量部",
+          "budget_amount": 22345628.87,
+          "actual_amount": 20392434.1,
+          "red_cells": 0,
+          "variance_amount": -1953194.7699999996,
+          "execution_rate": 0.9125916401206211
+        },
+        {
+          "department": "设备部",
+          "budget_amount": 22246791.76,
+          "actual_amount": 20161891.14,
+          "red_cells": 0,
+          "variance_amount": -2084900.620000001,
+          "execution_rate": 0.9062830882541599
+        },
+        {
+          "department": "生产二部",
+          "budget_amount": 22245594.849999998,
+          "actual_amount": 20109794.47,
+          "red_cells": 1,
+          "variance_amount": -2135800.379999999,
+          "execution_rate": 0.9039899632083788
+        },
+        {
+          "department": "采购部",
+          "budget_amount": 22115625.0,
+          "actual_amount": 19827727.77,
+          "red_cells": 0,
+          "variance_amount": -2287897.2300000004,
+          "execution_rate": 0.8965483801610852
+        }
+      ],
+      "source": {
+        "label": "部门预算执行场景",
+        "tables": [
+          "budget_execution.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario"
+      }
+    },
+    "account_budget": {
+      "rows": [
+        {
+          "account": "直接材料",
+          "budget_amount": 72410072.34,
+          "actual_amount": 70560715.17,
+          "variance_amount": -1849357.1700000018,
+          "execution_rate": 0.9744599458302378
+        },
+        {
+          "account": "直接人工",
+          "budget_amount": 21111153.65,
+          "actual_amount": 18885529.57,
+          "variance_amount": -2225624.079999998,
+          "execution_rate": 0.8945759139032178
+        },
+        {
+          "account": "能源费",
+          "budget_amount": 14604713.66,
+          "actual_amount": 14163361.85,
+          "variance_amount": -441351.8100000005,
+          "execution_rate": 0.9697801805448063
+        },
+        {
+          "account": "折旧费",
+          "budget_amount": 12128546.31,
+          "actual_amount": 10945244.379999999,
+          "variance_amount": -1183301.9300000016,
+          "execution_rate": 0.9024366235033157
+        },
+        {
+          "account": "维修费",
+          "budget_amount": 7266761.12,
+          "actual_amount": 6566975.82,
+          "variance_amount": -699785.2999999998,
+          "execution_rate": 0.9037005223587149
+        },
+        {
+          "account": "其他制造费",
+          "budget_amount": 6014257.62,
+          "actual_amount": 5445378.12,
+          "variance_amount": -568879.5,
+          "execution_rate": 0.9054115177726624
+        }
+      ],
+      "source": {
+        "label": "费用科目结构场景",
+        "tables": [
+          "budget_execution.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario"
+      }
+    },
+    "inventory_by_location": {
+      "rows": [
+        {
+          "location_id": 1,
+          "records": 167,
+          "matched": 160,
+          "book_quantity": 72899,
+          "counted_quantity": 72898,
+          "value_variance": -71.91040000000001,
+          "absolute_value_variance": 71.91040000000001,
+          "match_rate": 0.9580838323353293
+        },
+        {
+          "location_id": 2,
+          "records": 12,
+          "matched": 12,
+          "book_quantity": 5549,
+          "counted_quantity": 5549,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 3,
+          "records": 5,
+          "matched": 5,
+          "book_quantity": 186,
+          "counted_quantity": 186,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 4,
+          "records": 5,
+          "matched": 5,
+          "book_quantity": 110,
+          "counted_quantity": 110,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 5,
+          "records": 51,
+          "matched": 51,
+          "book_quantity": 20295,
+          "counted_quantity": 20295,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 6,
+          "records": 201,
+          "matched": 186,
+          "book_quantity": 83173,
+          "counted_quantity": 83162,
+          "value_variance": -8.763500000000015,
+          "absolute_value_variance": 570.3745,
+          "match_rate": 0.9253731343283582
+        },
+        {
+          "location_id": 7,
+          "records": 151,
+          "matched": 144,
+          "book_quantity": 17319,
+          "counted_quantity": 17315,
+          "value_variance": -9319.826599999999,
+          "absolute_value_variance": 10046.564199999999,
+          "match_rate": 0.9536423841059603
+        },
+        {
+          "location_id": 10,
+          "records": 46,
+          "matched": 41,
+          "book_quantity": 13584,
+          "counted_quantity": 13588,
+          "value_variance": 714.5233000000001,
+          "absolute_value_variance": 870.3585,
+          "match_rate": 0.8913043478260869
+        },
+        {
+          "location_id": 20,
+          "records": 20,
+          "matched": 19,
+          "book_quantity": 5165,
+          "counted_quantity": 5166,
+          "value_variance": 27.4925,
+          "absolute_value_variance": 27.4925,
+          "match_rate": 0.95
+        },
+        {
+          "location_id": 30,
+          "records": 7,
+          "matched": 7,
+          "book_quantity": 958,
+          "counted_quantity": 958,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 40,
+          "records": 9,
+          "matched": 9,
+          "book_quantity": 508,
+          "counted_quantity": 508,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 45,
+          "records": 3,
+          "matched": 3,
+          "book_quantity": 332,
+          "counted_quantity": 332,
+          "value_variance": 0.0,
+          "absolute_value_variance": 0.0,
+          "match_rate": 1.0
+        },
+        {
+          "location_id": 50,
+          "records": 251,
+          "matched": 236,
+          "book_quantity": 95477,
+          "counted_quantity": 95471,
+          "value_variance": 27.4925,
+          "absolute_value_variance": 63.4477,
+          "match_rate": 0.9402390438247012
+        },
+        {
+          "location_id": 60,
+          "records": 141,
+          "matched": 129,
+          "book_quantity": 20419,
+          "counted_quantity": 20431,
+          "value_variance": 9438.8272,
+          "absolute_value_variance": 12207.496000000001,
+          "match_rate": 0.9148936170212766
+        }
+      ],
+      "source": {
+        "label": "仓库盘点场景",
+        "tables": [
+          "ProductInventory.csv",
+          "stocktake.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario_anchored_to_sample"
+      }
+    },
+    "project_risk": {
+      "rows": [
+        {
+          "project_id": "PRJ-010",
+          "project_name": "新型号电池研发-10",
+          "target_cost": 11334255.0,
+          "completion_rate": 0.368,
+          "actual_amount": 4671526.55,
+          "cost_consumption_rate": 0.4121600008116987,
+          "estimate_at_completion": 12694365.625,
+          "forecast_overrun": 1360110.625,
+          "risk_level": "high"
+        },
+        {
+          "project_id": "PRJ-002",
+          "project_name": "自动化设备升级-2",
+          "target_cost": 10368332.0,
+          "completion_rate": 0.789,
+          "actual_amount": 8344226.2,
+          "cost_consumption_rate": 0.8047799973997747,
+          "estimate_at_completion": 10575698.605830165,
+          "forecast_overrun": 207366.60583016463,
+          "risk_level": "high"
+        },
+        {
+          "project_id": "PRJ-008",
+          "project_name": "仓储数字化改造-8",
+          "target_cost": 8289520.0,
+          "completion_rate": 0.757,
+          "actual_amount": 6400670.100000001,
+          "cost_consumption_rate": 0.7721400153446762,
+          "estimate_at_completion": 8455310.568031704,
+          "forecast_overrun": 165790.56803170405,
+          "risk_level": "high"
+        },
+        {
+          "project_id": "PRJ-003",
+          "project_name": "仓储数字化改造-3",
+          "target_cost": 5693058.0,
+          "completion_rate": 0.733,
+          "actual_amount": 4256471.79,
+          "cost_consumption_rate": 0.7476600080308333,
+          "estimate_at_completion": 5806919.222373807,
+          "forecast_overrun": 113861.22237380689,
+          "risk_level": "high"
+        },
+        {
+          "project_id": "PRJ-004",
+          "project_name": "能源管理改造-4",
+          "target_cost": 3050287.0,
+          "completion_rate": 0.536,
+          "actual_amount": 1553206.13,
+          "cost_consumption_rate": 0.5091999965904848,
+          "estimate_at_completion": 2897772.6305970144,
+          "forecast_overrun": -152514.36940298555,
+          "risk_level": "low"
+        },
+        {
+          "project_id": "PRJ-005",
+          "project_name": "新型号电池研发-5",
+          "target_cost": 4725033.0,
+          "completion_rate": 0.844,
+          "actual_amount": 3788531.56,
+          "cost_consumption_rate": 0.8018000212908566,
+          "estimate_at_completion": 4488781.469194313,
+          "forecast_overrun": -236251.53080568745,
+          "risk_level": "low"
+        },
+        {
+          "project_id": "PRJ-001",
+          "project_name": "电芯产线扩产-1",
+          "target_cost": 5446896.0,
+          "completion_rate": 0.517,
+          "actual_amount": 2675242.92,
+          "cost_consumption_rate": 0.4911499907470236,
+          "estimate_at_completion": 5174551.102514506,
+          "forecast_overrun": -272344.8974854937,
+          "risk_level": "low"
+        },
+        {
+          "project_id": "PRJ-009",
+          "project_name": "能源管理改造-9",
+          "target_cost": 6455931.0,
+          "completion_rate": 0.772,
+          "actual_amount": 4734779.7,
+          "cost_consumption_rate": 0.7333999852228904,
+          "estimate_at_completion": 6133134.326424871,
+          "forecast_overrun": -322796.67357512936,
+          "risk_level": "low"
+        },
+        {
+          "project_id": "PRJ-006",
+          "project_name": "电芯产线扩产-6",
+          "target_cost": 9237450.0,
+          "completion_rate": 0.293,
+          "actual_amount": 2571244.16,
+          "cost_consumption_rate": 0.2783499948578883,
+          "estimate_at_completion": 8775577.33788396,
+          "forecast_overrun": -461872.66211603954,
+          "risk_level": "low"
+        },
+        {
+          "project_id": "PRJ-007",
+          "project_name": "自动化设备升级-7",
+          "target_cost": 8009853.0,
+          "completion_rate": 0.339,
+          "actual_amount": 2389499.35,
+          "cost_consumption_rate": 0.2983200003795325,
+          "estimate_at_completion": 7048670.648967551,
+          "forecast_overrun": -961182.3510324488,
+          "risk_level": "low"
+        }
+      ],
+      "source": {
+        "label": "项目成本组合场景",
+        "tables": [
+          "project_master.csv",
+          "project_cost.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario"
+      }
+    },
+    "waste_by_type": {
+      "rows": [
+        {
+          "waste_type": "材料超耗",
+          "waste_amount": 306731.42,
+          "incidents": 152,
+          "quantity": 1293
+        },
+        {
+          "waste_type": "返工",
+          "waste_amount": 236414.27,
+          "incidents": 120,
+          "quantity": 1173
+        },
+        {
+          "waste_type": "报废",
+          "waste_amount": 214974.21,
+          "incidents": 121,
+          "quantity": 1081
+        },
+        {
+          "waste_type": "能源超耗",
+          "waste_amount": 170287.69,
+          "incidents": 93,
+          "quantity": 858
+        },
+        {
+          "waste_type": "设备停机",
+          "waste_amount": 101439.78,
+          "incidents": 54,
+          "quantity": 483
+        },
+        {
+          "waste_type": "非计划领料",
+          "waste_amount": 97681.49,
+          "incidents": 60,
+          "quantity": 549
+        }
+      ],
+      "source": {
+        "label": "浪费稽核场景",
+        "tables": [
+          "waste_audit.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario"
+      }
+    },
+    "waste_monthly": {
+      "rows": [
+        {
+          "month": "2026-01-01",
+          "waste_amount": 59721.26,
+          "incidents": 53
+        },
+        {
+          "month": "2026-02-01",
+          "waste_amount": 93594.6,
+          "incidents": 60
+        },
+        {
+          "month": "2026-03-01",
+          "waste_amount": 80558.94,
+          "incidents": 40
+        },
+        {
+          "month": "2026-04-01",
+          "waste_amount": 97994.17,
+          "incidents": 59
+        },
+        {
+          "month": "2026-05-01",
+          "waste_amount": 89595.25,
+          "incidents": 47
+        },
+        {
+          "month": "2026-06-01",
+          "waste_amount": 78840.96,
+          "incidents": 54
+        },
+        {
+          "month": "2026-07-01",
+          "waste_amount": 47674.78,
+          "incidents": 40
+        },
+        {
+          "month": "2026-08-01",
+          "waste_amount": 134766.38999999998,
+          "incidents": 50
+        },
+        {
+          "month": "2026-09-01",
+          "waste_amount": 116643.35,
+          "incidents": 47
+        },
+        {
+          "month": "2026-10-01",
+          "waste_amount": 110830.54000000001,
+          "incidents": 58
+        },
+        {
+          "month": "2026-11-01",
+          "waste_amount": 121700.0,
+          "incidents": 54
+        },
+        {
+          "month": "2026-12-01",
+          "waste_amount": 95608.62,
+          "incidents": 38
+        }
+      ],
+      "source": {
+        "label": "月度浪费趋势场景",
+        "tables": [
+          "waste_audit.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "synthetic_scenario"
+      }
+    },
+    "scrap_by_reason": {
+      "rows": [
+        {
+          "reason": "Color incorrect",
+          "scrap_loss_amount": 36228.6967,
+          "scrap_quantity": 491,
+          "work_orders": 44
+        },
+        {
+          "reason": "Trim length too long",
+          "scrap_loss_amount": 34910.543,
+          "scrap_quantity": 981,
+          "work_orders": 52
+        },
+        {
+          "reason": "Thermoform temperature too low",
+          "scrap_loss_amount": 33208.325899999996,
+          "scrap_quantity": 876,
+          "work_orders": 63
+        },
+        {
+          "reason": "Drill size too large",
+          "scrap_loss_amount": 30444.8203,
+          "scrap_quantity": 506,
+          "work_orders": 42
+        },
+        {
+          "reason": "Gouge in metal",
+          "scrap_loss_amount": 28735.8845,
+          "scrap_quantity": 575,
+          "work_orders": 54
+        },
+        {
+          "reason": "Thermoform temperature too high",
+          "scrap_loss_amount": 25904.0086,
+          "scrap_quantity": 394,
+          "work_orders": 37
+        },
+        {
+          "reason": "Wheel misaligned",
+          "scrap_loss_amount": 23570.8021,
+          "scrap_quantity": 804,
+          "work_orders": 51
+        },
+        {
+          "reason": "Drill size too small",
+          "scrap_loss_amount": 19284.6642,
+          "scrap_quantity": 826,
+          "work_orders": 44
+        },
+        {
+          "reason": "Stress test failed",
+          "scrap_loss_amount": 19069.7487,
+          "scrap_quantity": 306,
+          "work_orders": 52
+        },
+        {
+          "reason": "Drill pattern incorrect",
+          "scrap_loss_amount": 18519.3601,
+          "scrap_quantity": 762,
+          "work_orders": 45
+        },
+        {
+          "reason": "Trim length too short",
+          "scrap_loss_amount": 18318.6216,
+          "scrap_quantity": 763,
+          "work_orders": 48
+        },
+        {
+          "reason": "Brake assembly not as ordered",
+          "scrap_loss_amount": 18212.7383,
+          "scrap_quantity": 459,
+          "work_orders": 44
+        }
+      ],
+      "source": {
+        "label": "AdventureWorks 报废原因",
+        "tables": [
+          "WorkOrder.csv",
+          "Product.csv",
+          "ScrapReason.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+        ],
+        "metricDefinitions": [],
+        "classification": "observed_fictional_sample"
+      }
+    },
+    "purchase_price_variance": {
+      "rows": [
+        {
+          "product_id": 930,
+          "product_name": "HL Mountain Tire",
+          "purchase_price_variance": 1451590.525,
+          "order_quantity": 48950,
+          "purchase_orders": 89
+        },
+        {
+          "product_id": 932,
+          "product_name": "ML Road Tire",
+          "purchase_price_variance": 1424296.06,
+          "order_quantity": 47300,
+          "purchase_orders": 86
+        },
+        {
+          "product_id": 931,
+          "product_name": "LL Road Tire",
+          "purchase_price_variance": 1254772.8599999999,
+          "order_quantity": 47300,
+          "purchase_orders": 86
+        },
+        {
+          "product_id": 929,
+          "product_name": "ML Mountain Tire",
+          "purchase_price_variance": 1251884.315,
+          "order_quantity": 48950,
+          "purchase_orders": 89
+        },
+        {
+          "product_id": 933,
+          "product_name": "HL Road Tire",
+          "purchase_price_variance": 1231086.505,
+          "order_quantity": 39050,
+          "purchase_orders": 71
+        },
+        {
+          "product_id": 936,
+          "product_name": "ML Mountain Pedal",
+          "purchase_price_variance": 1162476.1499999994,
+          "order_quantity": 56100,
+          "purchase_orders": 102
+        },
+        {
+          "product_id": 928,
+          "product_name": "LL Mountain Tire",
+          "purchase_price_variance": 1132177.0899999999,
+          "order_quantity": 48950,
+          "purchase_orders": 89
+        },
+        {
+          "product_id": 934,
+          "product_name": "Touring Tire",
+          "purchase_price_variance": 1055834.01,
+          "order_quantity": 39050,
+          "purchase_orders": 71
+        },
+        {
+          "product_id": 939,
+          "product_name": "ML Road Pedal",
+          "purchase_price_variance": 1025714.2499999995,
+          "order_quantity": 49500,
+          "purchase_orders": 90
+        },
+        {
+          "product_id": 907,
+          "product_name": "Rear Brakes",
+          "purchase_price_variance": 977583.7500000001,
+          "order_quantity": 27500,
+          "purchase_orders": 50
+        },
+        {
+          "product_id": 948,
+          "product_name": "Front Brakes",
+          "purchase_price_variance": 977583.7500000001,
+          "order_quantity": 27500,
+          "purchase_orders": 50
+        },
+        {
+          "product_id": 941,
+          "product_name": "Touring Pedal",
+          "purchase_price_variance": 758188.695,
+          "order_quantity": 28050,
+          "purchase_orders": 51
+        }
+      ],
+      "source": {
+        "label": "AdventureWorks 采购价格差异",
+        "tables": [
+          "PurchaseOrderDetail.csv",
+          "Product.csv"
+        ],
+        "filters": [
+          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+        ],
+        "assumptions": [
+          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
+          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
+          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation.",
+          "Excluded 6892 purchase lines whose standard cost was zero; their price variance has no usable baseline."
+        ],
+        "metricDefinitions": [],
+        "classification": "observed_fictional_sample"
+      }
+    }
+  },
+  "id": "dashboard:f53f9cd5-060b-48e2-aaa3-6af3c2457d6f"
+}

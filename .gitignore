@@ -1,0 +1,18 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Rebuildable data-app artifacts; final offline deliverables are kept in output/.
+dashboard/dist/
+report/dist/
+dashboard/.data-app-offline/
+report/.data-app-offline/
+
+# Local editor and temporary files
+.idea/
+.vscode/
+*.tmp
+*.log

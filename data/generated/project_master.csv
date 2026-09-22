@@ -1,0 +1,11 @@
+project_id,project_name,target_cost,completion_rate,source_class,source_note
+PRJ-001,电芯产线扩产-1,5446896.0,0.517,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-002,自动化设备升级-2,10368332.0,0.789,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-003,仓储数字化改造-3,5693058.0,0.733,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-004,能源管理改造-4,3050287.0,0.536,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-005,新型号电池研发-5,4725033.0,0.844,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-006,电芯产线扩产-6,9237450.0,0.293,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-007,自动化设备升级-7,8009853.0,0.339,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-008,仓储数字化改造-8,8289520.0,0.757,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-009,能源管理改造-9,6455931.0,0.772,synthetic_scenario,Portfolio scenario; names and targets are fictitious
+PRJ-010,新型号电池研发-10,11334255.0,0.368,synthetic_scenario,Portfolio scenario; names and targets are fictitious

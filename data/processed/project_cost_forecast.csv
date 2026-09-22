@@ -1,0 +1,11 @@
+project_id,project_name,target_cost,completion_rate,source_class,source_note,actual_amount,cost_consumption_rate,estimate_at_completion,forecast_overrun,risk_level
+PRJ-001,电芯产线扩产-1,5446896.0,0.517,synthetic_scenario,Portfolio scenario; names and targets are fictitious,2675242.92,0.4911499907470236,5174551.102514506,-272344.8974854937,low
+PRJ-002,自动化设备升级-2,10368332.0,0.789,synthetic_scenario,Portfolio scenario; names and targets are fictitious,8344226.2,0.8047799973997747,10575698.605830165,207366.60583016463,high
+PRJ-003,仓储数字化改造-3,5693058.0,0.733,synthetic_scenario,Portfolio scenario; names and targets are fictitious,4256471.79,0.7476600080308333,5806919.222373807,113861.22237380687,high
+PRJ-004,能源管理改造-4,3050287.0,0.536,synthetic_scenario,Portfolio scenario; names and targets are fictitious,1553206.13,0.5091999965904848,2897772.6305970144,-152514.36940298555,low
+PRJ-005,新型号电池研发-5,4725033.0,0.844,synthetic_scenario,Portfolio scenario; names and targets are fictitious,3788531.56,0.8018000212908566,4488781.469194313,-236251.53080568742,low
+PRJ-006,电芯产线扩产-6,9237450.0,0.293,synthetic_scenario,Portfolio scenario; names and targets are fictitious,2571244.16,0.2783499948578883,8775577.33788396,-461872.66211603954,low
+PRJ-007,自动化设备升级-7,8009853.0,0.339,synthetic_scenario,Portfolio scenario; names and targets are fictitious,2389499.35,0.29832000037953255,7048670.648967551,-961182.3510324489,low
+PRJ-008,仓储数字化改造-8,8289520.0,0.757,synthetic_scenario,Portfolio scenario; names and targets are fictitious,6400670.100000001,0.7721400153446762,8455310.568031704,165790.56803170405,high
+PRJ-009,能源管理改造-9,6455931.0,0.772,synthetic_scenario,Portfolio scenario; names and targets are fictitious,4734779.7,0.7333999852228904,6133134.326424871,-322796.67357512936,low
+PRJ-010,新型号电池研发-10,11334255.0,0.368,synthetic_scenario,Portfolio scenario; names and targets are fictitious,4671526.55,0.4121600008116987,12694365.625,1360110.625,high

@@ -1,0 +1,9 @@
+dataset,check,result,status
+USAID 发运明细,行数,10324,pass
+USAID 发运明细,完全重复行,0,pass
+USAID 发运明细,交付日期可解析率,100.0%,pass
+USAID 发运明细,运费可数值化率,60.0%,caution
+USAID 发运明细,重量可数值化率,61.7%,caution
+UCI 钢厂能耗,行数,35040,pass
+UCI 钢厂能耗,时间戳重复,0,pass
+UCI 钢厂能耗,时间戳可解析率,100.0%,pass

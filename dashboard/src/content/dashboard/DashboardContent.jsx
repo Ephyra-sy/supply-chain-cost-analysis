@@ -1,127 +1,137 @@
 import React from "react";
 
-import {
-  DataComponent, DataTable, EvidenceChart, MetricCard, useDataApp,
-} from "../../data-app-public.jsx";
+import { DataComponent, DataTable, EvidenceChart, MetricCard, useDataApp } from "../../data-app-public.jsx";
 import "./example.css";
 
-const money = (value, compact = true) => new Intl.NumberFormat("zh-CN", {
-  style: "currency", currency: "CNY", notation: compact ? "compact" : "standard",
+const usd = (value, compact = true) => new Intl.NumberFormat("zh-CN", {
+  style: "currency", currency: "USD", notation: compact ? "compact" : "standard",
   maximumFractionDigits: compact ? 1 : 0,
 }).format(Number(value ?? 0));
+const number = (value, digits = 0) => new Intl.NumberFormat("zh-CN", { maximumFractionDigits: digits }).format(Number(value ?? 0));
 const pct = (value) => `${(Number(value ?? 0) * 100).toFixed(1)}%`;
 
-const monthlyBudgetSpec = {
-  type: "line", x: "month", y: "budget_amount", fields: ["budget_amount", "actual_amount"],
-  currency: "CNY", valueDecimals: 0,
-  colors: { budget_amount: "var(--secondary)", actual_amount: "var(--chart-1)" },
-  legend: { labels: { budget_amount: "预算", actual_amount: "实际" } },
+const shipmentTrendSpec = {
+  type: "line", x: "delivery_year", y: "line_item_value_usd", currency: "USD", valueDecimals: 0,
+  colors: { line_item_value_usd: "var(--chart-1)" },
 };
-const departmentSpec = {
-  type: "horizontalBar", x: "department", y: "Execution (%)", valueDecimals: 1,
-  colors: { "Execution (%)": "var(--chart-2)" },
+const modeSpec = {
+  type: "bar", x: "shipment mode", y: "on_time_pct", valueDecimals: 1,
+  colors: { on_time_pct: "var(--chart-2)" },
 };
-const wasteSpec = {
-  type: "bar", x: "waste_type", y: "waste_amount", currency: "CNY", valueDecimals: 0,
-  colors: { waste_amount: "var(--chart-4)" },
+const countrySpec = {
+  type: "horizontalBar", x: "country", y: "line_item_value_usd", currency: "USD", valueDecimals: 0,
+  colors: { line_item_value_usd: "var(--chart-3)" },
 };
-const scrapSpec = {
-  type: "horizontalBar", x: "reason", y: "scrap_loss_amount", currency: "CNY", valueDecimals: 0,
-  colors: { scrap_loss_amount: "var(--chart-5)" },
+const energyMonthlySpec = {
+  type: "line", x: "month", y: "usage_kwh", valueDecimals: 0,
+  colors: { usage_kwh: "var(--chart-4)" },
 };
-const ppvSpec = {
-  type: "horizontalBar", x: "product_name", y: "purchase_price_variance", currency: "CNY", valueDecimals: 0,
-  colors: { purchase_price_variance: "var(--chart-3)" },
+const hourlySpec = {
+  type: "line", x: "hour_label", y: "average_interval_kwh", valueDecimals: 1,
+  colors: { average_interval_kwh: "var(--chart-5)" },
+};
+const loadSpec = {
+  type: "bar", x: "Load_Type", y: "usage_kwh", valueDecimals: 0,
+  colors: { usage_kwh: "var(--chart-1)" },
 };
 
 export function DashboardContent() {
   const { reviewedRows, visible } = useDataApp();
   const summaryRows = reviewedRows("executive_summary");
   const [summary = {}] = summaryRows;
-  const monthly = reviewedRows("monthly_budget");
-  const departmentSourceRows = reviewedRows("department_budget");
-  const departments = departmentSourceRows.map((row) => ({
-    ...row,
-    "Execution (%)": row.execution_rate * 100,
-  }));
-  const waste = reviewedRows("waste_by_type");
-  const projects = reviewedRows("project_risk");
-  const inventory = reviewedRows("inventory_by_location");
-  const scrap = reviewedRows("scrap_by_reason");
-  const ppv = reviewedRows("purchase_price_variance");
+  const years = reviewedRows("shipment_by_year");
+  const modeSource = reviewedRows("shipment_by_mode");
+  const modes = modeSource.map((row) => ({ ...row, on_time_pct: Number(row.on_time_rate) * 100 }));
+  const countries = reviewedRows("country_performance");
+  const sites = reviewedRows("manufacturing_sites");
+  const energyMonthly = reviewedRows("energy_monthly");
+  const energyHourly = reviewedRows("energy_hourly");
+  const energyLoad = reviewedRows("energy_by_load_type");
+  const quality = reviewedRows("data_quality");
 
-  const projectColumns = [
-    { key: "project_name", label: "项目" },
-    { key: "completion_rate", label: "完成进度", renderCell: (v) => pct(v) },
-    { key: "cost_consumption_rate", label: "成本消耗", renderCell: (v) => pct(v) },
-    { key: "estimate_at_completion", label: "预计完工成本", renderCell: (v) => money(v, false) },
-    { key: "forecast_overrun", label: "预计超支", renderCell: (v) => money(v, false) },
-    { key: "risk_level", label: "风险" },
+  const modeColumns = [
+    { key: "shipment mode", label: "运输方式" },
+    { key: "shipment_lines", label: "明细行" },
+    { key: "line_item_value_usd", label: "货值", renderCell: (v) => usd(v) },
+    { key: "on_time_rate", label: "准时率", renderCell: (v) => pct(v) },
+    { key: "freight_numeric_coverage", label: "运费覆盖", renderCell: (v) => pct(v) },
   ];
-  const inventoryColumns = [
-    { key: "location_id", label: "库位" },
-    { key: "records", label: "盘点记录" },
-    { key: "match_rate", label: "相符率", renderCell: (v) => pct(v) },
-    { key: "book_quantity", label: "账面数量" },
-    { key: "counted_quantity", label: "盘点数量" },
-    { key: "absolute_value_variance", label: "差异绝对额", renderCell: (v) => money(v, false) },
+  const siteColumns = [
+    { key: "manufacturing site", label: "制造地点" },
+    { key: "shipment_lines", label: "明细行" },
+    { key: "line_item_value_usd", label: "货值", renderCell: (v) => usd(v) },
+    { key: "on_time_rate", label: "准时率", renderCell: (v) => pct(v) },
+  ];
+  const qualityColumns = [
+    { key: "dataset", label: "数据集" }, { key: "check", label: "检查项" },
+    { key: "result", label: "结果" }, { key: "status", label: "状态" },
   ];
 
-  return <article className="cost-dashboard" aria-label="制造成本管控看板">
+  return <article className="cost-dashboard" aria-label="真实供应链与制造能耗分析看板">
     <section className="dashboard-intro">
-      <p>预算、盘点、项目和浪费为可复现仿真场景；报废与采购价差来自 Microsoft AdventureWorks 虚构教学样例。</p>
+      <p><strong>全部主指标来自真实公开观测数据。</strong> USAID 发运数据覆盖 2006–2015 年；UCI 钢厂能耗数据覆盖 2018 年。两套数据属于不同组织与时期，只并列展示，不做企业级合并归因。</p>
     </section>
 
     <section className="kpi-grid" aria-label="核心指标">
-      {visible("kpi-budget") && <MetricCard id="kpi-budget" title="预算执行率" queryId="executive_summary"
-        sourceRows={summaryRows} value={pct(summary.budget_execution_rate)}
-        description={`${money(summary.actual_amount)} / ${money(summary.budget_amount)}`} />}
-      {visible("kpi-warning") && <MetricCard id="kpi-warning" title="红色预警" queryId="executive_summary"
-        sourceRows={summaryRows} value={String(summary.red_warning_cells ?? 0)}
-        description="月份×部门×科目中实际额超预算的组合" />}
-      {visible("kpi-inventory") && <MetricCard id="kpi-inventory" title="账实相符率" queryId="executive_summary"
-        sourceRows={summaryRows} value={pct(summary.inventory_match_rate)}
-        description={`差异绝对额 ${money(summary.inventory_absolute_variance)}`} />}
-      {visible("kpi-project") && <MetricCard id="kpi-project" title="高风险项目" queryId="executive_summary"
-        sourceRows={summaryRows} value={`${summary.high_risk_projects ?? 0}/${summary.project_count ?? 0}`}
-        description={`预计超支合计 ${money(summary.forecast_project_overrun)}`} />}
+      {visible("kpi-value") && <MetricCard id="kpi-value" title="发运行项目货值" queryId="executive_summary"
+        sourceRows={summaryRows} value={usd(summary.line_item_value_usd)}
+        description={`${number(summary.shipment_lines)} 条明细，覆盖 ${summary.destination_countries ?? 0} 个国家`} />}
+      {visible("kpi-ontime") && <MetricCard id="kpi-ontime" title="准时交付率" queryId="executive_summary"
+        sourceRows={summaryRows} value={pct(summary.on_time_rate)} description={`晚交付率 ${pct(summary.late_shipment_rate)}`} />}
+      {visible("kpi-freight") && <MetricCard id="kpi-freight" title="已知数值运费" queryId="executive_summary"
+        sourceRows={summaryRows} value={usd(summary.known_freight_usd)}
+        description={`仅覆盖 ${pct(summary.freight_numeric_coverage)} 的发运明细`} />}
+      {visible("kpi-energy") && <MetricCard id="kpi-energy" title="钢厂全年用电" queryId="executive_summary"
+        sourceRows={summaryRows} value={`${number(summary.energy_usage_kwh)} kWh`}
+        description={`CO₂ ${number(summary.co2_tonnes, 2)} 吨；不虚构电价`} />}
     </section>
 
     <section className="chart-grid chart-grid--wide">
-      <EvidenceChart id="chart-budget-monthly" queryId="monthly_budget" title="月度预算与实际费用"
-        description="2026年仿真场景；按月汇总全部部门和费用科目。"
-        spec={monthlyBudgetSpec} rows={monthly} sourceRows={monthly} height={310} />
-      <EvidenceChart id="chart-budget-department" queryId="department_budget" title="部门预算执行率"
-        description="实际费用除以预算，由高到低用于定位费用压力。"
-        spec={departmentSpec} rows={departments} sourceRows={departmentSourceRows} height={310} />
+      <EvidenceChart id="shipment-value-trend" queryId="shipment_by_year" title="年度发运行项目货值"
+        description="按实际交付年份汇总；2015 年为截至数据末期的非完整年度。"
+        spec={shipmentTrendSpec} rows={years} sourceRows={years} height={310} />
+      <EvidenceChart id="mode-ontime" queryId="shipment_by_mode" title="运输方式准时率"
+        description="实际交付日不晚于计划交付日即计为准时。"
+        spec={modeSpec} rows={modes} sourceRows={modeSource} height={310} />
     </section>
 
     <section className="chart-grid">
-      <EvidenceChart id="chart-waste-type" queryId="waste_by_type" title="浪费金额结构"
-        description="仿真稽核场景；展示报废、返工、超耗等类型的金额。"
-        spec={wasteSpec} rows={waste} sourceRows={waste} height={280} />
-      <EvidenceChart id="chart-scrap-reason" queryId="scrap_by_reason" title="报废损失原因"
-        description="AdventureWorks全期样例；报废数量按产品标准成本计价。"
-        spec={scrapSpec} rows={scrap} sourceRows={scrap} height={280} />
+      <EvidenceChart id="country-value" queryId="country_performance" title="主要目的国货值"
+        description="按货值排名前12个目的国；用于识别业务暴露，不代表利润。"
+        spec={countrySpec} rows={countries} sourceRows={countries} height={360} />
+      <DataComponent id="freight-coverage" queryId="shipment_by_mode" kind="table" title="运输方式成本与交付"
+        description="已知运费仅汇总可数值化记录，覆盖率用于提示口径完整性。"
+        sourceRows={modeSource} displayRows={modeSource}>
+        <DataTable rows={modeSource} columns={modeColumns} rowKey="shipment mode" searchable={false} />
+      </DataComponent>
     </section>
 
-    <section className="table-grid">
-      <DataComponent id="project-risk" queryId="project_risk" kind="table" title="项目成本风险"
-        description="仿真项目组合；预计完工成本=累计实际成本÷完成进度。"
-        sourceRows={projects} displayRows={projects}>
-        <DataTable rows={projects} columns={projectColumns} rowKey="project_id" searchable={false} />
-      </DataComponent>
-      <DataComponent id="inventory-location" queryId="inventory_by_location" kind="table" title="库位盘点差异"
-        description="库位编号来自公开样例，实盘数为仿真场景。"
-        sourceRows={inventory} displayRows={inventory}>
-        <DataTable rows={inventory} columns={inventoryColumns} rowKey="location_id" searchable={false} />
+    <section className="chart-grid chart-grid--wide">
+      <EvidenceChart id="energy-monthly" queryId="energy_monthly" title="钢厂月度用电量"
+        description={`2018 年真实15分钟观测；峰值月份为 ${summary.peak_energy_month ?? "-"}。`}
+        spec={energyMonthlySpec} rows={energyMonthly} sourceRows={energyMonthly} height={310} />
+      <EvidenceChart id="energy-load" queryId="energy_by_load_type" title="负荷类型用电结构"
+        description="Maximum、Medium 与 Light Load 的全年用电量。"
+        spec={loadSpec} rows={energyLoad} sourceRows={energyLoad} height={310} />
+    </section>
+
+    <section className="chart-grid">
+      <EvidenceChart id="energy-hourly" queryId="energy_hourly" title="分时平均15分钟用电"
+        description="按小时汇总全年同一时段观测，用于定位高负荷时段。"
+        spec={hourlySpec} rows={energyHourly} sourceRows={energyHourly} height={310} />
+      <DataComponent id="manufacturing-sites" queryId="manufacturing_sites" kind="table" title="主要制造地点"
+        description="按发运行项目货值排序的前12个制造地点。"
+        sourceRows={sites} displayRows={sites}>
+        <DataTable rows={sites} columns={siteColumns} rowKey="manufacturing site" searchable={false} />
       </DataComponent>
     </section>
 
     <section className="chart-grid chart-grid--single">
-      <EvidenceChart id="chart-product-ppv" queryId="purchase_price_variance" title="物料采购价格差异"
-        description="AdventureWorks全期样例；已排除标准成本为0、无可用基准的采购行。"
-        spec={ppvSpec} rows={ppv} sourceRows={ppv} height={360} />
+      <DataComponent id="data-quality" queryId="data_quality" kind="table" title="数据质量检查"
+        description="caution 表示字段可用但覆盖不完整，使用时必须同时披露覆盖率。"
+        sourceRows={quality} displayRows={quality}>
+        <DataTable rows={quality} columns={qualityColumns} rowKey="check" searchable={false} />
+      </DataComponent>
     </section>
   </article>;
 }

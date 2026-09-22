@@ -1,70 +1,59 @@
 import React from "react";
 
-import {
-  DataComponent, DataTable, EvidenceChart, MetricCard, ReportSection, RichNarrative, useDataApp,
-} from "../../data-app-public.jsx";
+import { DataComponent, DataTable, EvidenceChart, MetricCard, ReportSection, RichNarrative, useDataApp } from "../../data-app-public.jsx";
 
-const money = (value, compact = true) => new Intl.NumberFormat("zh-CN", {
-  style: "currency", currency: "CNY", notation: compact ? "compact" : "standard",
+const usd = (value, compact = true) => new Intl.NumberFormat("zh-CN", {
+  style: "currency", currency: "USD", notation: compact ? "compact" : "standard",
   maximumFractionDigits: compact ? 1 : 0,
 }).format(Number(value ?? 0));
+const number = (value, digits = 0) => new Intl.NumberFormat("zh-CN", { maximumFractionDigits: digits }).format(Number(value ?? 0));
 const pct = (value) => `${(Number(value ?? 0) * 100).toFixed(1)}%`;
 
-const budgetSpec = {
-  type: "line", x: "month", y: "budget_amount", fields: ["budget_amount", "actual_amount"],
-  currency: "CNY", valueDecimals: 0,
-  colors: { budget_amount: "var(--secondary)", actual_amount: "var(--chart-1)" },
-  legend: { labels: { budget_amount: "预算", actual_amount: "实际" } },
-};
-const projectSpec = {
-  type: "bar", x: "project_name", y: "forecast_overrun", currency: "CNY", valueDecimals: 0,
-  colors: { forecast_overrun: "var(--chart-4)" }, xTickLabelLayout: "angled",
-};
-const scrapSpec = {
-  type: "horizontalBar", x: "reason", y: "scrap_loss_amount", currency: "CNY", valueDecimals: 0,
-  colors: { scrap_loss_amount: "var(--chart-5)" },
-};
+const shipmentSpec = { type: "line", x: "delivery_year", y: "line_item_value_usd", currency: "USD", valueDecimals: 0, colors: { line_item_value_usd: "var(--chart-1)" } };
+const modeSpec = { type: "bar", x: "shipment mode", y: "on_time_pct", valueDecimals: 1, colors: { on_time_pct: "var(--chart-2)" } };
+const energySpec = { type: "line", x: "month", y: "usage_kwh", valueDecimals: 0, colors: { usage_kwh: "var(--chart-4)" } };
+const hourlySpec = { type: "line", x: "hour_label", y: "average_interval_kwh", valueDecimals: 1, colors: { average_interval_kwh: "var(--chart-5)" } };
 
 export function ReportContent() {
   const { appTitle, canEdit, mode, reviewedRows, setAppTitle } = useDataApp();
   const summaryRows = reviewedRows("executive_summary");
   const [summary = {}] = summaryRows;
-  const monthly = reviewedRows("monthly_budget");
-  const projects = reviewedRows("project_risk");
-  const highRisk = projects.filter((row) => row.risk_level === "high");
-  const scrap = reviewedRows("scrap_by_reason");
-  const ppv = reviewedRows("purchase_price_variance");
-  const inventory = reviewedRows("inventory_by_location");
+  const years = reviewedRows("shipment_by_year");
+  const modeSource = reviewedRows("shipment_by_mode");
+  const modes = modeSource.map((row) => ({ ...row, on_time_pct: Number(row.on_time_rate) * 100 }));
+  const energyMonthly = reviewedRows("energy_monthly");
+  const energyHourly = reviewedRows("energy_hourly");
+  const countries = reviewedRows("country_performance");
+  const quality = reviewedRows("data_quality");
+  const lowestMode = [...modeSource].filter((row) => row["shipment mode"] !== "未记录").sort((a, b) => a.on_time_rate - b.on_time_rate)[0];
+  const topCountry = countries[0];
+  const topHour = [...energyHourly].sort((a, b) => b.average_interval_kwh - a.average_interval_kwh)[0];
 
-  const topProject = [...projects].sort((a, b) => Number(b.forecast_overrun) - Number(a.forecast_overrun))[0];
-  const topScrap = scrap[0];
-  const topPpv = ppv[0];
-  const lowestInventory = [...inventory].sort((a, b) => Number(a.match_rate) - Number(b.match_rate))[0];
-
-  const projectColumns = [
-    { key: "project_name", label: "项目" },
-    { key: "completion_rate", label: "进度", renderCell: (v) => pct(v) },
-    { key: "cost_consumption_rate", label: "成本消耗", renderCell: (v) => pct(v) },
-    { key: "forecast_overrun", label: "预计超支", renderCell: (v) => money(v, false) },
-    { key: "risk_level", label: "风险" },
+  const countryColumns = [
+    { key: "country", label: "目的国" }, { key: "shipment_lines", label: "明细行" },
+    { key: "line_item_value_usd", label: "货值", renderCell: (v) => usd(v) },
+    { key: "on_time_rate", label: "准时率", renderCell: (v) => pct(v) },
+    { key: "average_delay_days", label: "平均提前/延迟天数", renderCell: (v) => number(v, 1) },
+  ];
+  const qualityColumns = [
+    { key: "dataset", label: "数据集" }, { key: "check", label: "检查项" },
+    { key: "result", label: "结果" }, { key: "status", label: "状态" },
   ];
 
   const executiveText = `## 执行摘要
 
-- 2026年仿真预算执行率为 **${pct(summary.budget_execution_rate)}**，整体未超预算，但存在 **${summary.red_warning_cells ?? 0}** 个超预算组合，需下沉到部门和费用科目复核。
-- ${summary.high_risk_projects ?? 0}个仿真项目被标记为高风险，预计超支正值合计 **${money(summary.forecast_project_overrun)}**。${topProject ? ` 其中 ${topProject.project_name} 的预计超支最高。` : ""}
-- 仿真盘点的账实相符率为 **${pct(summary.inventory_match_rate)}**；${lowestInventory ? `库位 ${lowestInventory.location_id} 的相符率最低，应优先抽盘。` : ""}
-- AdventureWorks样例中，报废损失估值合计 **${money(summary.scrap_loss_amount)}**。${topScrap ? `最大的已记录原因是 ${topScrap.reason}。` : ""}`;
+- USAID 的 ${number(summary.shipment_lines)} 条真实发运明细覆盖 ${summary.destination_countries ?? 0} 个目的国，行项目货值合计 **${usd(summary.line_item_value_usd)}**，整体准时交付率 **${pct(summary.on_time_rate)}**。
+- ${lowestMode ? `在有明确运输方式的记录中，**${lowestMode["shipment mode"]}** 准时率最低（${pct(lowestMode.on_time_rate)}），应作为承运方案复盘入口；` : ""}这只是描述性定位，不能单凭该数据证明运输方式导致延迟。
+- 可直接数值化的运费合计 **${usd(summary.known_freight_usd)}**，但仅覆盖 **${pct(summary.freight_numeric_coverage)}** 的发运明细，因此不能把它当作完整物流总成本。
+- UCI 钢厂 2018 年用电合计 **${number(summary.energy_usage_kwh)} kWh**，${summary.peak_energy_month ?? "-"} 为峰值月份；${topHour ? `全年分时平均值在 ${topHour.hour_label} 最高。` : ""}`;
 
-  return <article className="cost-report" aria-label="制造成本分析报告">
+  return <article className="cost-report" aria-label="真实供应链成本与制造能耗分析报告">
     <header className="report-hero">
       <h1 data-data-app-title contentEditable={canEdit && mode === "edit"} suppressContentEditableWarning
         onBlur={canEdit && mode === "edit" ? (event) => setAppTitle(event.currentTarget.textContent.trim() || appTitle) : undefined}
-        onKeyDown={canEdit && mode === "edit" ? (event) => {
-          if (event.key === "Enter") { event.preventDefault(); event.currentTarget.blur(); }
-        } : undefined}>{appTitle}</h1>
+        onKeyDown={canEdit && mode === "edit" ? (event) => { if (event.key === "Enter") { event.preventDefault(); event.currentTarget.blur(); } } : undefined}>{appTitle}</h1>
       <RichNarrative id="report:intro" className="report-deck"
-        value="面向制造费用、项目成本、库存稽核和采购降本岗位的作品集分析。公开教学样例与仿真场景分开呈现，不代表真实企业绩效。" />
+        value="使用 USAID 真实国际供应链发运数据和 UCI 真实钢厂能耗数据，展示采购物流分析、交付风险识别、数据质量控制与制造能耗诊断。两套数据不属于同一家企业，因此只形成方法链路，不合并为虚构的企业损益。" />
     </header>
 
     <ReportSection id="report-summary" queryId="executive_summary" sourceRows={summaryRows} showHeading={false}>
@@ -72,44 +61,67 @@ export function ReportContent() {
     </ReportSection>
 
     <section className="report-facts" aria-label="核心数字">
-      <MetricCard id="report-metric-budget" title="预算执行率" queryId="executive_summary"
-        sourceRows={summaryRows} value={pct(summary.budget_execution_rate)} description={`${money(summary.actual_amount)} / ${money(summary.budget_amount)}`} />
-      <MetricCard id="report-metric-project" title="高风险项目" queryId="executive_summary"
-        sourceRows={summaryRows} value={`${summary.high_risk_projects ?? 0}/${summary.project_count ?? 0}`} description={`预计超支 ${money(summary.forecast_project_overrun)}`} />
-      <MetricCard id="report-metric-inventory" title="账实相符率" queryId="executive_summary"
-        sourceRows={summaryRows} value={pct(summary.inventory_match_rate)} description={`差异绝对额 ${money(summary.inventory_absolute_variance)}`} />
+      <MetricCard id="report-metric-value" title="行项目货值" queryId="executive_summary" sourceRows={summaryRows}
+        value={usd(summary.line_item_value_usd)} description={`${number(summary.shipment_lines)} 条发运明细`} />
+      <MetricCard id="report-metric-ontime" title="准时交付率" queryId="executive_summary" sourceRows={summaryRows}
+        value={pct(summary.on_time_rate)} description={`晚交付率 ${pct(summary.late_shipment_rate)}`} />
+      <MetricCard id="report-metric-energy" title="全年用电" queryId="executive_summary" sourceRows={summaryRows}
+        value={`${number(summary.energy_usage_kwh)} kWh`} description={`CO₂ ${number(summary.co2_tonnes, 2)} 吨`} />
     </section>
 
     <section className="report-section">
-      <ReportSection id="report-budget" queryId="monthly_budget" sourceRows={monthly} showHeading={false}>
-        <RichNarrative id="report-budget:body" value={`## 总额可控不等于过程无风险\n\n全年实际费用低于预算，但月份×部门×科目层面仍有 ${summary.red_warning_cells ?? 0} 个红色预警。月度趋势用于判断压力是持续还是局部发生，不直接证明管控措施的效果。`} />
-      </ReportSection>
-      <EvidenceChart id="report-budget-chart" queryId="monthly_budget" title="月度预算与实际费用"
-        spec={budgetSpec} rows={monthly} sourceRows={monthly} height={320} />
-    </section>
+      <ReportSection id="report-logistics" queryId="shipment_by_year" sourceRows={years} showHeading={false}>
+        <RichNarrative id="report-logistics:body" value={`## 1. 发运规模与交付表现
 
-    <section className="report-section">
-      <ReportSection id="report-project" queryId="project_risk" sourceRows={projects} showHeading={false}>
-        <RichNarrative id="report-project:body" value={`## 项目风险应在完工前暴露\n\n高风险标记使用成本消耗率、物理进度和预计完工成本。它是仿真预警机制，用于展示动态成本管理方法，不是对真实项目的审计结论。`} />
+项目先将计划交付日和实际交付日标准化，再计算准时标记、延迟天数，并按年度、运输方式、目的国和制造地点聚合。${topCountry ? `${topCountry.country} 的行项目货值最高（${usd(topCountry.line_item_value_usd)}），是业务暴露最大的目的国。` : ""} 年度趋势反映历史发运结构变化，不用于预测当前市场。`} />
       </ReportSection>
-      <EvidenceChart id="report-project-chart" queryId="project_risk" title="项目预计超支"
-        spec={projectSpec} rows={projects} sourceRows={projects} height={320} />
-      <DataComponent id="report-project-table" queryId="project_risk" kind="table" title="高风险项目明细"
-        sourceRows={projects} displayRows={highRisk}>
-        <DataTable rows={highRisk} columns={projectColumns} rowKey="project_id" searchable={false} />
+      <EvidenceChart id="report-shipment-chart" queryId="shipment_by_year" title="年度发运行项目货值"
+        description="2006–2015 年历史交付记录；2015 年为非完整年度。" spec={shipmentSpec} rows={years} sourceRows={years} height={320} />
+      <DataComponent id="report-country-table" queryId="country_performance" kind="table" title="主要目的国交付表现"
+        sourceRows={countries} displayRows={countries}>
+        <DataTable rows={countries} columns={countryColumns} rowKey="country" searchable={false} />
       </DataComponent>
     </section>
 
     <section className="report-section">
-      <ReportSection id="report-observed" queryId="scrap_by_reason" sourceRows={scrap} showHeading={false}>
-        <RichNarrative id="report-observed:body" value={`## 公开样例支撑报废与采购价差分析\n\nAdventureWorks中的报废原因可用于构建浪费复盘清单。${topPpv ? `${topPpv.product_name} 的采购价格差异在已纳入物料中最高，` : ""}但样例没有企业内部议价、合同和市场行情证据，因此只能定位复核对象，不能直接归因。`} />
+      <ReportSection id="report-freight" queryId="shipment_by_mode" sourceRows={modeSource} showHeading={false}>
+        <RichNarrative id="report-freight:body" value={`## 2. 运输方式是复盘入口，不是因果结论
+
+不同运输方式的准时率存在差异，可用于提出核查清单：订单紧急度、目的国、供应商备货和清关条件是否不同。但数据没有随机分配运输方式，不能把准时率差异直接解释成方式优劣。运费字段还含“货值已含运费”“另行开票”等文本状态，项目只累计 ${pct(summary.freight_numeric_coverage)} 可数值化记录并单独披露覆盖率。`} />
       </ReportSection>
-      <EvidenceChart id="report-scrap-chart" queryId="scrap_by_reason" title="报废损失原因"
-        spec={scrapSpec} rows={scrap} sourceRows={scrap} height={340} />
+      <EvidenceChart id="report-mode-chart" queryId="shipment_by_mode" title="运输方式准时率"
+        spec={modeSpec} rows={modes} sourceRows={modeSource} height={320} />
+    </section>
+
+    <section className="report-section">
+      <ReportSection id="report-energy" queryId="energy_monthly" sourceRows={energyMonthly} showHeading={false}>
+        <RichNarrative id="report-energy:body" value={`## 3. 制造能耗按月与时段定位
+
+钢厂全年 ${number(summary.energy_observations)} 个15分钟观测共记录 ${number(summary.energy_usage_kwh)} kWh。最大负荷类型贡献 ${pct(summary.maximum_load_energy_share)} 的电量，${summary.peak_energy_month} 用电最高（${number(summary.peak_energy_month_kwh)} kWh）。在缺少生产量和电价的情况下，项目不计算单位产量能耗或金额节省，避免制造“降本成果”。`} />
+      </ReportSection>
+      <EvidenceChart id="report-energy-chart" queryId="energy_monthly" title="月度用电量"
+        spec={energySpec} rows={energyMonthly} sourceRows={energyMonthly} height={320} />
+      <EvidenceChart id="report-hour-chart" queryId="energy_hourly" title="分时平均15分钟用电"
+        spec={hourlySpec} rows={energyHourly} sourceRows={energyHourly} height={300} />
+    </section>
+
+    <section className="report-section">
+      <ReportSection id="report-actions" queryId="executive_summary" sourceRows={summaryRows} showHeading={false}>
+        <RichNarrative id="report-actions:body" value={`## 4. 建议的管理动作
+
+1. 对低准时率运输方式进一步按目的国、供应商和年份分层，确认是否由业务结构造成。
+2. 对运费字段建立“数值金额 / 已含货值 / 另行开票 / 引用其他单据”四类标准，先提高数据覆盖再设成本目标。
+3. 以月度峰值和高负荷时段作为排产、空载检查和设备启停审计入口；接入产量与电价后，再计算单位产品能耗和节省金额。
+4. 面试中明确本项目完成的是公开真实数据的诊断方法，不声称为某企业实现了实际降本。`} />
+      </ReportSection>
     </section>
 
     <section className="report-section report-methods">
-      <RichNarrative id="report:methods" value={`## 数据边界与使用方式\n\n- Microsoft AdventureWorks 为公开虚构教学数据，不是真实公司内部台账。\n- 预算、盘点、项目成本和浪费稽核使用固定随机种子 20260922 生成。\n- 采购价格差异已排除 ${summary.purchase_rows_excluded_zero_standard_cost ?? 0} 条标准成本为0、无可用基准的采购行。\n- AdventureWorks全期汇总不与2026年仿真数据拼接为同一条时间趋势。`} />
+      <RichNarrative id="report:methods" value="## 数据边界\n\n- USAID 数据是公开真实行政记录，原始门户标识为 a3rc-nmf6；门户当前不可访问，本地文件来自公开镜像。\n- UCI 数据来自韩国一家钢铁企业的真实 2018 年观测，许可为 CC BY 4.0。\n- USAID 与 UCI 数据来自不同组织、不同年份，不合并计算企业总成本。\n- 原 AdventureWorks 和固定随机种子生成数据均已退出主报告、主看板和主指标。" />
+      <DataComponent id="report-quality-table" queryId="data_quality" kind="table" title="数据质量检查结果"
+        sourceRows={quality} displayRows={quality}>
+        <DataTable rows={quality} columns={qualityColumns} rowKey="check" searchable={false} />
+      </DataComponent>
     </section>
   </article>;
 }

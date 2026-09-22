@@ -1,950 +1,969 @@
 {
   "surface": "dashboard",
-  "title": "制造成本管控",
-  "generatedAt": "2026-09-22T08:05:08.383245+00:00",
-  "buildStatus": "creating",
-  "status": "reviewed_portfolio_sample",
-  "filters": [
-    {
-      "id": "month",
-      "label": "月份",
-      "field": "month",
-      "defaultValue": "all"
-    }
-  ],
+  "title": "真实供应链与制造能耗分析",
+  "generatedAt": "2026-09-22T08:38:41.713444+00:00",
+  "buildStatus": "complete",
+  "status": "reviewed_public_observed_data",
+  "filters": [],
   "queries": {
     "executive_summary": {
       "rows": [
         {
-          "budget_amount": 133535504.69999999,
-          "actual_amount": 126567204.91,
-          "budget_execution_rate": 0.9478168760761048,
-          "red_warning_cells": 26,
-          "inventory_match_rate": 0.9420018709073901,
-          "inventory_absolute_variance": 23857.643799999994,
-          "scrap_loss_amount": 359947.1751,
-          "purchase_price_variance": 20544567.3085,
-          "purchase_rows_excluded_zero_standard_cost": 6892,
-          "high_risk_projects": 4,
-          "project_count": 10,
-          "forecast_project_overrun": 1847129.0212356756
+          "shipment_lines": 10324,
+          "destination_countries": 43,
+          "line_item_value_usd": 1627584457.29,
+          "on_time_rate": 0.8851220457187137,
+          "late_shipment_rate": 0.11487795428128632,
+          "known_freight_usd": 68817849.41,
+          "freight_numeric_coverage": 0.6003487020534677,
+          "known_freight_to_value_ratio": 0.057873018918772806,
+          "energy_observations": 35040,
+          "energy_usage_kwh": 959636.7100000001,
+          "co2_tonnes": 403.81,
+          "average_lagging_power_factor": 80.57805622146118,
+          "maximum_load_energy_share": 0.44910470338301245,
+          "peak_energy_month": "2018-01",
+          "peak_energy_month_kwh": 126238.29
         }
       ],
       "source": {
-        "label": "Manufacturing cost control summary",
+        "label": "USAID shipment history + UCI steel energy summary",
         "tables": [
-          "data/processed/*.csv"
+          "data/raw/usaid_supply_chain/usaid_supply_chain_shipments.csv",
+          "data/raw/steel_energy/Steel_industry_data.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "USAID records are real public administrative shipment data, not data from the portfolio author's employer.",
+          "The original USAID portal is currently unavailable; the local CSV was retrieved from a public mirror and is identified by original portal dataset ID a3rc-nmf6.",
+          "Freight Cost contains text states such as 'included in commodity cost' and 'invoiced separately'; only directly numeric rows are summed.",
+          "USAID cautions against using the data to infer precise item/country transport cost or lead-time causality; this project reports descriptive patterns only.",
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
         ],
         "metricDefinitions": [
           {
-            "label": "预算执行率",
-            "definition": "仿真费用实际额合计 ÷ 仿真预算额合计。",
+            "label": "准时交付率",
+            "definition": "实际交付日期早于或等于计划交付日期的明细行数 ÷ 全部明细行数。",
             "componentIds": [
-              "kpi-budget",
+              "kpi-ontime",
               "report-summary"
             ]
           },
           {
-            "label": "账实相符率",
-            "definition": "盘点数量等于账面数量的库位产品记录数 ÷ 全部盘点记录数。",
+            "label": "已知运费",
+            "definition": "Freight Cost (USD) 中可直接转换为数值的金额合计；文本状态不视为0。",
             "componentIds": [
-              "kpi-inventory",
-              "inventory-location"
+              "kpi-freight",
+              "freight-coverage"
             ]
           },
           {
-            "label": "高风险项目",
-            "definition": "成本消耗快于进度15个百分点或预计完工成本超目标的仿真项目。",
+            "label": "总用电量",
+            "definition": "UCI 2018年35,040个15分钟观测值的 Usage_kWh 合计。",
             "componentIds": [
-              "kpi-project",
-              "project-risk"
+              "kpi-energy",
+              "energy-monthly"
             ]
           }
         ],
-        "classification": "mixed_sample_and_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "monthly_budget": {
+    "shipment_by_year": {
       "rows": [
         {
-          "month": "2026-01-01",
-          "budget_amount": 9346243.31,
-          "actual_amount": 8797281.41,
-          "red_cells": 2,
-          "variance_amount": -548961.9000000004,
-          "execution_rate": 0.9412638980399066
+          "delivery_year": "2006",
+          "shipment_lines": 65,
+          "line_item_value_usd": 4844512.44,
+          "on_time_rate": 1.0,
+          "average_delay_days": -1.0615384615384615,
+          "known_freight_usd": 287018.73,
+          "freight_rows": 43,
+          "freight_numeric_coverage": 0.6615384615384615
         },
         {
-          "month": "2026-02-01",
-          "budget_amount": 9265821.52,
-          "actual_amount": 8725733.18,
-          "red_cells": 2,
-          "variance_amount": -540088.3399999999,
-          "execution_rate": 0.9417117695571585
+          "delivery_year": "2007",
+          "shipment_lines": 671,
+          "line_item_value_usd": 59636228.17,
+          "on_time_rate": 0.9836065573770492,
+          "average_delay_days": -0.4202682563338301,
+          "known_freight_usd": 2940323.56,
+          "freight_rows": 425,
+          "freight_numeric_coverage": 0.6333830104321908
         },
         {
-          "month": "2026-03-01",
-          "budget_amount": 9685821.76,
-          "actual_amount": 9076532.91,
-          "red_cells": 2,
-          "variance_amount": -609288.8499999996,
-          "execution_rate": 0.937094769540752
+          "delivery_year": "2008",
+          "shipment_lines": 1108,
+          "line_item_value_usd": 113542681.01,
+          "on_time_rate": 0.9855595667870036,
+          "average_delay_days": -13.314981949458483,
+          "known_freight_usd": 5301838.01,
+          "freight_rows": 610,
+          "freight_numeric_coverage": 0.5505415162454874
         },
         {
-          "month": "2026-04-01",
-          "budget_amount": 10266863.85,
-          "actual_amount": 9539016.59,
-          "red_cells": 2,
-          "variance_amount": -727847.2599999998,
-          "execution_rate": 0.9291071479437218
+          "delivery_year": "2009",
+          "shipment_lines": 1192,
+          "line_item_value_usd": 131690555.82000001,
+          "on_time_rate": 0.9630872483221476,
+          "average_delay_days": -7.726510067114094,
+          "known_freight_usd": 4967509.36,
+          "freight_rows": 671,
+          "freight_numeric_coverage": 0.5629194630872483
         },
         {
-          "month": "2026-05-01",
-          "budget_amount": 10737386.14,
-          "actual_amount": 10312761.73,
-          "red_cells": 2,
-          "variance_amount": -424624.41000000015,
-          "execution_rate": 0.9604536518978165
+          "delivery_year": "2010",
+          "shipment_lines": 1176,
+          "line_item_value_usd": 161160835.88,
+          "on_time_rate": 0.8520408163265306,
+          "average_delay_days": -6.0688775510204085,
+          "known_freight_usd": 7120701.85,
+          "freight_rows": 760,
+          "freight_numeric_coverage": 0.6462585034013606
         },
         {
-          "month": "2026-06-01",
-          "budget_amount": 10489655.63,
-          "actual_amount": 9783497.56,
-          "red_cells": 2,
-          "variance_amount": -706158.0700000003,
-          "execution_rate": 0.9326805288077888
+          "delivery_year": "2011",
+          "shipment_lines": 1049,
+          "line_item_value_usd": 229399084.3,
+          "on_time_rate": 0.7616777883698761,
+          "average_delay_days": -1.4594852240228788,
+          "known_freight_usd": 8900745.01,
+          "freight_rows": 797,
+          "freight_numeric_coverage": 0.7597712106768351
         },
         {
-          "month": "2026-07-01",
-          "budget_amount": 11438722.88,
-          "actual_amount": 10693809.17,
-          "red_cells": 2,
-          "variance_amount": -744913.7100000009,
-          "execution_rate": 0.9348778952148196
+          "delivery_year": "2012",
+          "shipment_lines": 1253,
+          "line_item_value_usd": 240299574.95,
+          "on_time_rate": 0.9146049481245012,
+          "average_delay_days": -13.053471667996808,
+          "known_freight_usd": 11046320.65,
+          "freight_rows": 852,
+          "freight_numeric_coverage": 0.6799680766161214
         },
         {
-          "month": "2026-08-01",
-          "budget_amount": 11800838.19,
-          "actual_amount": 11349456.040000001,
-          "red_cells": 3,
-          "variance_amount": -451382.1499999985,
-          "execution_rate": 0.9617499924384609
+          "delivery_year": "2013",
+          "shipment_lines": 1240,
+          "line_item_value_usd": 221855446.41,
+          "on_time_rate": 0.8419354838709677,
+          "average_delay_days": -4.92741935483871,
+          "known_freight_usd": 11515896.84,
+          "freight_rows": 823,
+          "freight_numeric_coverage": 0.6637096774193548
         },
         {
-          "month": "2026-09-01",
-          "budget_amount": 12103739.129999999,
-          "actual_amount": 11527868.86,
-          "red_cells": 2,
-          "variance_amount": -575870.2699999996,
-          "execution_rate": 0.9524221181723371
+          "delivery_year": "2014",
+          "shipment_lines": 1573,
+          "line_item_value_usd": 265671840.38,
+          "on_time_rate": 0.8296249205340115,
+          "average_delay_days": -1.319135410044501,
+          "known_freight_usd": 11045102.87,
+          "freight_rows": 839,
+          "freight_numeric_coverage": 0.533375715193897
         },
         {
-          "month": "2026-10-01",
-          "budget_amount": 12453601.95,
-          "actual_amount": 11923538.45,
-          "red_cells": 2,
-          "variance_amount": -530063.5,
-          "execution_rate": 0.9574369325334026
-        },
-        {
-          "month": "2026-11-01",
-          "budget_amount": 12834393.83,
-          "actual_amount": 12284185.23,
-          "red_cells": 2,
-          "variance_amount": -550208.5999999996,
-          "execution_rate": 0.9571301451951783
-        },
-        {
-          "month": "2026-12-01",
-          "budget_amount": 13112416.51,
-          "actual_amount": 12553523.78,
-          "red_cells": 3,
-          "variance_amount": -558892.7300000004,
-          "execution_rate": 0.9573768321366417
+          "delivery_year": "2015",
+          "shipment_lines": 997,
+          "line_item_value_usd": 199483697.93,
+          "on_time_rate": 0.8796389167502507,
+          "average_delay_days": -4.6780341023069205,
+          "known_freight_usd": 5692392.53,
+          "freight_rows": 378,
+          "freight_numeric_coverage": 0.3791374122367101
         }
       ],
       "source": {
-        "label": "月度预算与费用场景",
+        "label": "USAID Supply Chain Shipment Pricing Data",
         "tables": [
-          "monthly_budget.csv",
-          "expense_ledger.csv"
+          "usaid_supply_chain_shipments.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "USAID records are real public administrative shipment data, not data from the portfolio author's employer.",
+          "The original USAID portal is currently unavailable; the local CSV was retrieved from a public mirror and is identified by original portal dataset ID a3rc-nmf6.",
+          "Freight Cost contains text states such as 'included in commodity cost' and 'invoiced separately'; only directly numeric rows are summed.",
+          "USAID cautions against using the data to infer precise item/country transport cost or lead-time causality; this project reports descriptive patterns only."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "department_budget": {
+    "shipment_by_mode": {
       "rows": [
         {
-          "department": "生产一部",
-          "budget_amount": 22117826.92,
-          "actual_amount": 25528219.6,
-          "red_cells": 25,
-          "variance_amount": 3410392.6799999997,
-          "execution_rate": 1.1541920321709436
+          "shipment mode": "Air",
+          "shipment_lines": 6113,
+          "line_item_value_usd": 627285937.45,
+          "on_time_rate": 0.9039751349582856,
+          "average_delay_days": -3.763782103713398,
+          "known_freight_usd": 43038623.5,
+          "freight_rows": 4115,
+          "freight_numeric_coverage": 0.6731555700965156
         },
         {
-          "department": "仓储部",
-          "budget_amount": 22464037.3,
-          "actual_amount": 20547137.830000002,
-          "red_cells": 0,
-          "variance_amount": -1916899.4699999988,
-          "execution_rate": 0.9146680783867823
+          "shipment mode": "Truck",
+          "shipment_lines": 2830,
+          "line_item_value_usd": 587382369.1,
+          "on_time_rate": 0.8392226148409894,
+          "average_delay_days": -9.92190812720848,
+          "known_freight_usd": 11865688.23,
+          "freight_rows": 1166,
+          "freight_numeric_coverage": 0.4120141342756184
         },
         {
-          "department": "质量部",
-          "budget_amount": 22345628.87,
-          "actual_amount": 20392434.1,
-          "red_cells": 0,
-          "variance_amount": -1953194.7699999996,
-          "execution_rate": 0.9125916401206211
+          "shipment mode": "Air Charter",
+          "shipment_lines": 650,
+          "line_item_value_usd": 246372231.15,
+          "on_time_rate": 0.8846153846153846,
+          "average_delay_days": -19.036923076923078,
+          "known_freight_usd": 8926108.48,
+          "freight_rows": 424,
+          "freight_numeric_coverage": 0.6523076923076923
         },
         {
-          "department": "设备部",
-          "budget_amount": 22246791.76,
-          "actual_amount": 20161891.14,
-          "red_cells": 0,
-          "variance_amount": -2084900.620000001,
-          "execution_rate": 0.9062830882541599
+          "shipment mode": "Ocean",
+          "shipment_lines": 371,
+          "line_item_value_usd": 126177943.79,
+          "on_time_rate": 0.8247978436657682,
+          "average_delay_days": 5.870619946091645,
+          "known_freight_usd": 3590728.79,
+          "freight_rows": 282,
+          "freight_numeric_coverage": 0.7601078167115903
         },
         {
-          "department": "生产二部",
-          "budget_amount": 22245594.849999998,
-          "actual_amount": 20109794.47,
-          "red_cells": 1,
-          "variance_amount": -2135800.379999999,
-          "execution_rate": 0.9039899632083788
-        },
-        {
-          "department": "采购部",
-          "budget_amount": 22115625.0,
-          "actual_amount": 19827727.77,
-          "red_cells": 0,
-          "variance_amount": -2287897.2300000004,
-          "execution_rate": 0.8965483801610852
+          "shipment mode": "未记录",
+          "shipment_lines": 360,
+          "line_item_value_usd": 40365975.8,
+          "on_time_rate": 0.9888888888888889,
+          "average_delay_days": -2.511111111111111,
+          "known_freight_usd": 1396700.41,
+          "freight_rows": 211,
+          "freight_numeric_coverage": 0.5861111111111111
         }
       ],
       "source": {
-        "label": "部门预算执行场景",
+        "label": "USAID Supply Chain Shipment Pricing Data",
         "tables": [
-          "budget_execution.csv"
+          "usaid_supply_chain_shipments.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "USAID records are real public administrative shipment data, not data from the portfolio author's employer.",
+          "The original USAID portal is currently unavailable; the local CSV was retrieved from a public mirror and is identified by original portal dataset ID a3rc-nmf6.",
+          "Freight Cost contains text states such as 'included in commodity cost' and 'invoiced separately'; only directly numeric rows are summed.",
+          "USAID cautions against using the data to infer precise item/country transport cost or lead-time causality; this project reports descriptive patterns only."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "account_budget": {
+    "country_performance": {
       "rows": [
         {
-          "account": "直接材料",
-          "budget_amount": 72410072.34,
-          "actual_amount": 70560715.17,
-          "variance_amount": -1849357.1700000018,
-          "execution_rate": 0.9744599458302378
+          "country": "Nigeria",
+          "shipment_lines": 1194,
+          "line_item_value_usd": 350272104.87,
+          "on_time_rate": 0.88107202680067,
+          "average_delay_days": -11.224455611390285
         },
         {
-          "account": "直接人工",
-          "budget_amount": 21111153.65,
-          "actual_amount": 18885529.57,
-          "variance_amount": -2225624.079999998,
-          "execution_rate": 0.8945759139032178
+          "country": "Zambia",
+          "shipment_lines": 683,
+          "line_item_value_usd": 246988840.41,
+          "on_time_rate": 0.8418740849194729,
+          "average_delay_days": -5.234260614934114
         },
         {
-          "account": "能源费",
-          "budget_amount": 14604713.66,
-          "actual_amount": 14163361.85,
-          "variance_amount": -441351.8100000005,
-          "execution_rate": 0.9697801805448063
+          "country": "Mozambique",
+          "shipment_lines": 631,
+          "line_item_value_usd": 182024690.72,
+          "on_time_rate": 0.8161648177496038,
+          "average_delay_days": -1.2091917591125199
         },
         {
-          "account": "折旧费",
-          "budget_amount": 12128546.31,
-          "actual_amount": 10945244.379999999,
-          "variance_amount": -1183301.9300000016,
-          "execution_rate": 0.9024366235033157
+          "country": "Tanzania",
+          "shipment_lines": 519,
+          "line_item_value_usd": 129459495.65,
+          "on_time_rate": 0.8728323699421965,
+          "average_delay_days": -4.394990366088632
         },
         {
-          "account": "维修费",
-          "budget_amount": 7266761.12,
-          "actual_amount": 6566975.82,
-          "variance_amount": -699785.2999999998,
-          "execution_rate": 0.9037005223587149
+          "country": "Côte d'Ivoire",
+          "shipment_lines": 1083,
+          "line_item_value_usd": 120884500.89,
+          "on_time_rate": 0.876269621421976,
+          "average_delay_days": -5.3804247460757155
         },
         {
-          "account": "其他制造费",
-          "budget_amount": 6014257.62,
-          "actual_amount": 5445378.12,
-          "variance_amount": -568879.5,
-          "execution_rate": 0.9054115177726624
+          "country": "South Africa",
+          "shipment_lines": 1406,
+          "line_item_value_usd": 108670145.47,
+          "on_time_rate": 0.9182076813655761,
+          "average_delay_days": -12.224039829302987
+        },
+        {
+          "country": "Zimbabwe",
+          "shipment_lines": 538,
+          "line_item_value_usd": 104439960.51,
+          "on_time_rate": 0.8568773234200744,
+          "average_delay_days": -11.007434944237918
+        },
+        {
+          "country": "Uganda",
+          "shipment_lines": 779,
+          "line_item_value_usd": 96197336.16,
+          "on_time_rate": 0.8741976893453145,
+          "average_delay_days": -7.581514762516046
+        },
+        {
+          "country": "Rwanda",
+          "shipment_lines": 430,
+          "line_item_value_usd": 71127583.08,
+          "on_time_rate": 0.913953488372093,
+          "average_delay_days": -5.293023255813954
+        },
+        {
+          "country": "Vietnam",
+          "shipment_lines": 688,
+          "line_item_value_usd": 56974405.86,
+          "on_time_rate": 0.9912790697674418,
+          "average_delay_days": -0.3502906976744186
+        },
+        {
+          "country": "Haiti",
+          "shipment_lines": 655,
+          "line_item_value_usd": 43502785.9,
+          "on_time_rate": 0.9053435114503817,
+          "average_delay_days": -2.427480916030534
+        },
+        {
+          "country": "Kenya",
+          "shipment_lines": 111,
+          "line_item_value_usd": 33931560.98,
+          "on_time_rate": 0.8738738738738738,
+          "average_delay_days": 0.8918918918918919
         }
       ],
       "source": {
-        "label": "费用科目结构场景",
+        "label": "USAID Supply Chain Shipment Pricing Data",
         "tables": [
-          "budget_execution.csv"
+          "usaid_supply_chain_shipments.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "USAID records are real public administrative shipment data, not data from the portfolio author's employer.",
+          "The original USAID portal is currently unavailable; the local CSV was retrieved from a public mirror and is identified by original portal dataset ID a3rc-nmf6.",
+          "Freight Cost contains text states such as 'included in commodity cost' and 'invoiced separately'; only directly numeric rows are summed.",
+          "USAID cautions against using the data to infer precise item/country transport cost or lead-time causality; this project reports descriptive patterns only."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "inventory_by_location": {
+    "manufacturing_sites": {
       "rows": [
         {
-          "location_id": 1,
-          "records": 167,
-          "matched": 160,
-          "book_quantity": 72899,
-          "counted_quantity": 72898,
-          "value_variance": -71.91040000000001,
-          "absolute_value_variance": 71.91040000000001,
-          "match_rate": 0.9580838323353293
+          "manufacturing site": "Mylan (formerly Matrix) Nashik",
+          "shipment_lines": 1415,
+          "line_item_value_usd": 435676514.32,
+          "on_time_rate": 0.8508833922261484
         },
         {
-          "location_id": 2,
-          "records": 12,
-          "matched": 12,
-          "book_quantity": 5549,
-          "counted_quantity": 5549,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
+          "manufacturing site": "Aurobindo Unit III, India",
+          "shipment_lines": 3172,
+          "line_item_value_usd": 335536958.82,
+          "on_time_rate": 0.8660151324085751
         },
         {
-          "location_id": 3,
-          "records": 5,
-          "matched": 5,
-          "book_quantity": 186,
-          "counted_quantity": 186,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
+          "manufacturing site": "Hetero Unit III Hyderabad IN",
+          "shipment_lines": 869,
+          "line_item_value_usd": 213881678.46,
+          "on_time_rate": 0.8515535097813579
         },
         {
-          "location_id": 4,
-          "records": 5,
-          "matched": 5,
-          "book_quantity": 110,
-          "counted_quantity": 110,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
+          "manufacturing site": "Cipla, Goa, India",
+          "shipment_lines": 665,
+          "line_item_value_usd": 130580065.09,
+          "on_time_rate": 0.843609022556391
         },
         {
-          "location_id": 5,
-          "records": 51,
-          "matched": 51,
-          "book_quantity": 20295,
-          "counted_quantity": 20295,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
+          "manufacturing site": "Alere Medical Co., Ltd.",
+          "shipment_lines": 481,
+          "line_item_value_usd": 101329040.42,
+          "on_time_rate": 0.841995841995842
         },
         {
-          "location_id": 6,
-          "records": 201,
-          "matched": 186,
-          "book_quantity": 83173,
-          "counted_quantity": 83162,
-          "value_variance": -8.763500000000015,
-          "absolute_value_variance": 570.3745,
-          "match_rate": 0.9253731343283582
+          "manufacturing site": "Strides, Bangalore, India.",
+          "shipment_lines": 540,
+          "line_item_value_usd": 84560731.65,
+          "on_time_rate": 0.8240740740740741
         },
         {
-          "location_id": 7,
-          "records": 151,
-          "matched": 144,
-          "book_quantity": 17319,
-          "counted_quantity": 17315,
-          "value_variance": -9319.826599999999,
-          "absolute_value_variance": 10046.564199999999,
-          "match_rate": 0.9536423841059603
+          "manufacturing site": "Inverness Japan",
+          "shipment_lines": 345,
+          "line_item_value_usd": 53397373.94,
+          "on_time_rate": 0.9333333333333333
         },
         {
-          "location_id": 10,
-          "records": 46,
-          "matched": 41,
-          "book_quantity": 13584,
-          "counted_quantity": 13588,
-          "value_variance": 714.5233000000001,
-          "absolute_value_variance": 870.3585,
-          "match_rate": 0.8913043478260869
+          "manufacturing site": "ABBVIE Ludwigshafen Germany",
+          "shipment_lines": 366,
+          "line_item_value_usd": 50044887.69,
+          "on_time_rate": 0.9316939890710383
         },
         {
-          "location_id": 20,
-          "records": 20,
-          "matched": 19,
-          "book_quantity": 5165,
-          "counted_quantity": 5166,
-          "value_variance": 27.4925,
-          "absolute_value_variance": 27.4925,
-          "match_rate": 0.95
+          "manufacturing site": "Aurobindo Unit VII, IN",
+          "shipment_lines": 111,
+          "line_item_value_usd": 47782596.88,
+          "on_time_rate": 0.7837837837837838
         },
         {
-          "location_id": 30,
-          "records": 7,
-          "matched": 7,
-          "book_quantity": 958,
-          "counted_quantity": 958,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
+          "manufacturing site": "Aspen-OSD, Port Elizabeth, SA",
+          "shipment_lines": 141,
+          "line_item_value_usd": 29691889.96,
+          "on_time_rate": 0.9929078014184397
         },
         {
-          "location_id": 40,
-          "records": 9,
-          "matched": 9,
-          "book_quantity": 508,
-          "counted_quantity": 508,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
+          "manufacturing site": "Trinity Biotech, Plc",
+          "shipment_lines": 405,
+          "line_item_value_usd": 23075222.36,
+          "on_time_rate": 0.9975308641975309
         },
         {
-          "location_id": 45,
-          "records": 3,
-          "matched": 3,
-          "book_quantity": 332,
-          "counted_quantity": 332,
-          "value_variance": 0.0,
-          "absolute_value_variance": 0.0,
-          "match_rate": 1.0
-        },
-        {
-          "location_id": 50,
-          "records": 251,
-          "matched": 236,
-          "book_quantity": 95477,
-          "counted_quantity": 95471,
-          "value_variance": 27.4925,
-          "absolute_value_variance": 63.4477,
-          "match_rate": 0.9402390438247012
-        },
-        {
-          "location_id": 60,
-          "records": 141,
-          "matched": 129,
-          "book_quantity": 20419,
-          "counted_quantity": 20431,
-          "value_variance": 9438.8272,
-          "absolute_value_variance": 12207.496000000001,
-          "match_rate": 0.9148936170212766
+          "manufacturing site": "Cipla Ltd A-42 MIDC Mahar. IN",
+          "shipment_lines": 17,
+          "line_item_value_usd": 14680946.45,
+          "on_time_rate": 0.9411764705882353
         }
       ],
       "source": {
-        "label": "仓库盘点场景",
+        "label": "USAID Supply Chain Shipment Pricing Data",
         "tables": [
-          "ProductInventory.csv",
-          "stocktake.csv"
+          "usaid_supply_chain_shipments.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "USAID records are real public administrative shipment data, not data from the portfolio author's employer.",
+          "The original USAID portal is currently unavailable; the local CSV was retrieved from a public mirror and is identified by original portal dataset ID a3rc-nmf6.",
+          "Freight Cost contains text states such as 'included in commodity cost' and 'invoiced separately'; only directly numeric rows are summed.",
+          "USAID cautions against using the data to infer precise item/country transport cost or lead-time causality; this project reports descriptive patterns only."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario_anchored_to_sample"
+        "classification": "observed_public_real_data"
       }
     },
-    "project_risk": {
+    "energy_monthly": {
       "rows": [
         {
-          "project_id": "PRJ-010",
-          "project_name": "新型号电池研发-10",
-          "target_cost": 11334255.0,
-          "completion_rate": 0.368,
-          "actual_amount": 4671526.55,
-          "cost_consumption_rate": 0.4121600008116987,
-          "estimate_at_completion": 12694365.625,
-          "forecast_overrun": 1360110.625,
-          "risk_level": "high"
+          "month": "2018-01",
+          "usage_kwh": 126238.29,
+          "average_interval_kwh": 42.41878024193548,
+          "co2_tonnes": 53.99,
+          "lagging_power_factor": 86.3602688172043
         },
         {
-          "project_id": "PRJ-002",
-          "project_name": "自动化设备升级-2",
-          "target_cost": 10368332.0,
-          "completion_rate": 0.789,
-          "actual_amount": 8344226.2,
-          "cost_consumption_rate": 0.8047799973997747,
-          "estimate_at_completion": 10575698.605830165,
-          "forecast_overrun": 207366.60583016463,
-          "risk_level": "high"
+          "month": "2018-02",
+          "usage_kwh": 91497.34,
+          "average_interval_kwh": 34.03918898809523,
+          "co2_tonnes": 39.24,
+          "lagging_power_factor": 86.53518601190476
         },
         {
-          "project_id": "PRJ-008",
-          "project_name": "仓储数字化改造-8",
-          "target_cost": 8289520.0,
-          "completion_rate": 0.757,
-          "actual_amount": 6400670.100000001,
-          "cost_consumption_rate": 0.7721400153446762,
-          "estimate_at_completion": 8455310.568031704,
-          "forecast_overrun": 165790.56803170405,
-          "risk_level": "high"
+          "month": "2018-03",
+          "usage_kwh": 80230.41,
+          "average_interval_kwh": 26.959143145161292,
+          "co2_tonnes": 33.64,
+          "lagging_power_factor": 83.34635080645161
         },
         {
-          "project_id": "PRJ-003",
-          "project_name": "仓储数字化改造-3",
-          "target_cost": 5693058.0,
-          "completion_rate": 0.733,
-          "actual_amount": 4256471.79,
-          "cost_consumption_rate": 0.7476600080308333,
-          "estimate_at_completion": 5806919.222373807,
-          "forecast_overrun": 113861.22237380689,
-          "risk_level": "high"
+          "month": "2018-04",
+          "usage_kwh": 78769.8,
+          "average_interval_kwh": 27.350625,
+          "co2_tonnes": 33.35,
+          "lagging_power_factor": 81.52309375
         },
         {
-          "project_id": "PRJ-004",
-          "project_name": "能源管理改造-4",
-          "target_cost": 3050287.0,
-          "completion_rate": 0.536,
-          "actual_amount": 1553206.13,
-          "cost_consumption_rate": 0.5091999965904848,
-          "estimate_at_completion": 2897772.6305970144,
-          "forecast_overrun": -152514.36940298555,
-          "risk_level": "low"
+          "month": "2018-05",
+          "usage_kwh": 79059.28,
+          "average_interval_kwh": 26.565618279569893,
+          "co2_tonnes": 33.51,
+          "lagging_power_factor": 79.13209677419354
         },
         {
-          "project_id": "PRJ-005",
-          "project_name": "新型号电池研发-5",
-          "target_cost": 4725033.0,
-          "completion_rate": 0.844,
-          "actual_amount": 3788531.56,
-          "cost_consumption_rate": 0.8018000212908566,
-          "estimate_at_completion": 4488781.469194313,
-          "forecast_overrun": -236251.53080568745,
-          "risk_level": "low"
+          "month": "2018-06",
+          "usage_kwh": 65404.64,
+          "average_interval_kwh": 22.709944444444446,
+          "co2_tonnes": 27.1,
+          "lagging_power_factor": 77.30618750000001
         },
         {
-          "project_id": "PRJ-001",
-          "project_name": "电芯产线扩产-1",
-          "target_cost": 5446896.0,
-          "completion_rate": 0.517,
-          "actual_amount": 2675242.92,
-          "cost_consumption_rate": 0.4911499907470236,
-          "estimate_at_completion": 5174551.102514506,
-          "forecast_overrun": -272344.8974854937,
-          "risk_level": "low"
+          "month": "2018-07",
+          "usage_kwh": 81674.41,
+          "average_interval_kwh": 27.444358198924732,
+          "co2_tonnes": 35.02,
+          "lagging_power_factor": 80.46487567204301
         },
         {
-          "project_id": "PRJ-009",
-          "project_name": "能源管理改造-9",
-          "target_cost": 6455931.0,
-          "completion_rate": 0.772,
-          "actual_amount": 4734779.7,
-          "cost_consumption_rate": 0.7333999852228904,
-          "estimate_at_completion": 6133134.326424871,
-          "forecast_overrun": -322796.67357512936,
-          "risk_level": "low"
+          "month": "2018-08",
+          "usage_kwh": 68559.43,
+          "average_interval_kwh": 23.037442876344084,
+          "co2_tonnes": 28.44,
+          "lagging_power_factor": 75.37792002688172
         },
         {
-          "project_id": "PRJ-006",
-          "project_name": "电芯产线扩产-6",
-          "target_cost": 9237450.0,
-          "completion_rate": 0.293,
-          "actual_amount": 2571244.16,
-          "cost_consumption_rate": 0.2783499948578883,
-          "estimate_at_completion": 8775577.33788396,
-          "forecast_overrun": -461872.66211603954,
-          "risk_level": "low"
+          "month": "2018-09",
+          "usage_kwh": 57883.07,
+          "average_interval_kwh": 20.098288194444443,
+          "co2_tonnes": 23.92,
+          "lagging_power_factor": 74.22088541666666
         },
         {
-          "project_id": "PRJ-007",
-          "project_name": "自动化设备升级-7",
-          "target_cost": 8009853.0,
-          "completion_rate": 0.339,
-          "actual_amount": 2389499.35,
-          "cost_consumption_rate": 0.2983200003795325,
-          "estimate_at_completion": 7048670.648967551,
-          "forecast_overrun": -961182.3510324488,
-          "risk_level": "low"
+          "month": "2018-10",
+          "usage_kwh": 84665.65,
+          "average_interval_kwh": 28.449479166666666,
+          "co2_tonnes": 35.81,
+          "lagging_power_factor": 73.71496303763442
+        },
+        {
+          "month": "2018-11",
+          "usage_kwh": 86217.61,
+          "average_interval_kwh": 29.93667013888889,
+          "co2_tonnes": 36.52,
+          "lagging_power_factor": 80.46739236111111
+        },
+        {
+          "month": "2018-12",
+          "usage_kwh": 59436.78,
+          "average_interval_kwh": 19.97203629032258,
+          "co2_tonnes": 23.27,
+          "lagging_power_factor": 88.78025201612904
         }
       ],
       "source": {
-        "label": "项目成本组合场景",
+        "label": "UCI Steel Industry Energy Consumption",
         "tables": [
-          "project_master.csv",
-          "project_cost.csv"
+          "Steel_industry_data.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "waste_by_type": {
+    "energy_hourly": {
       "rows": [
         {
-          "waste_type": "材料超耗",
-          "waste_amount": 306731.42,
-          "incidents": 152,
-          "quantity": 1293
+          "hour": 0,
+          "average_interval_kwh": 7.8700753424657535,
+          "total_usage_kwh": 11490.31,
+          "observations": 1460,
+          "hour_label": "00:00"
         },
         {
-          "waste_type": "返工",
-          "waste_amount": 236414.27,
-          "incidents": 120,
-          "quantity": 1173
+          "hour": 1,
+          "average_interval_kwh": 6.072479452054794,
+          "total_usage_kwh": 8865.82,
+          "observations": 1460,
+          "hour_label": "01:00"
         },
         {
-          "waste_type": "报废",
-          "waste_amount": 214974.21,
-          "incidents": 121,
-          "quantity": 1081
+          "hour": 2,
+          "average_interval_kwh": 4.428390410958904,
+          "total_usage_kwh": 6465.45,
+          "observations": 1460,
+          "hour_label": "02:00"
         },
         {
-          "waste_type": "能源超耗",
-          "waste_amount": 170287.69,
-          "incidents": 93,
-          "quantity": 858
+          "hour": 3,
+          "average_interval_kwh": 4.358041095890411,
+          "total_usage_kwh": 6362.74,
+          "observations": 1460,
+          "hour_label": "03:00"
         },
         {
-          "waste_type": "设备停机",
-          "waste_amount": 101439.78,
-          "incidents": 54,
-          "quantity": 483
+          "hour": 4,
+          "average_interval_kwh": 4.309438356164383,
+          "total_usage_kwh": 6291.78,
+          "observations": 1460,
+          "hour_label": "04:00"
         },
         {
-          "waste_type": "非计划领料",
-          "waste_amount": 97681.49,
-          "incidents": 60,
-          "quantity": 549
+          "hour": 5,
+          "average_interval_kwh": 4.245547945205479,
+          "total_usage_kwh": 6198.5,
+          "observations": 1460,
+          "hour_label": "05:00"
+        },
+        {
+          "hour": 6,
+          "average_interval_kwh": 4.223705479452055,
+          "total_usage_kwh": 6166.61,
+          "observations": 1460,
+          "hour_label": "06:00"
+        },
+        {
+          "hour": 7,
+          "average_interval_kwh": 4.502075342465753,
+          "total_usage_kwh": 6573.03,
+          "observations": 1460,
+          "hour_label": "07:00"
+        },
+        {
+          "hour": 8,
+          "average_interval_kwh": 37.70479452054794,
+          "total_usage_kwh": 55049.0,
+          "observations": 1460,
+          "hour_label": "08:00"
+        },
+        {
+          "hour": 9,
+          "average_interval_kwh": 58.55173287671233,
+          "total_usage_kwh": 85485.53,
+          "observations": 1460,
+          "hour_label": "09:00"
+        },
+        {
+          "hour": 10,
+          "average_interval_kwh": 55.87473287671233,
+          "total_usage_kwh": 81577.11,
+          "observations": 1460,
+          "hour_label": "10:00"
+        },
+        {
+          "hour": 11,
+          "average_interval_kwh": 57.09745890410959,
+          "total_usage_kwh": 83362.29,
+          "observations": 1460,
+          "hour_label": "11:00"
+        },
+        {
+          "hour": 12,
+          "average_interval_kwh": 18.461000000000002,
+          "total_usage_kwh": 26953.06,
+          "observations": 1460,
+          "hour_label": "12:00"
+        },
+        {
+          "hour": 13,
+          "average_interval_kwh": 39.0195,
+          "total_usage_kwh": 56968.47,
+          "observations": 1460,
+          "hour_label": "13:00"
+        },
+        {
+          "hour": 14,
+          "average_interval_kwh": 56.1552602739726,
+          "total_usage_kwh": 81986.68,
+          "observations": 1460,
+          "hour_label": "14:00"
+        },
+        {
+          "hour": 15,
+          "average_interval_kwh": 55.63754109589041,
+          "total_usage_kwh": 81230.81,
+          "observations": 1460,
+          "hour_label": "15:00"
+        },
+        {
+          "hour": 16,
+          "average_interval_kwh": 55.79958219178082,
+          "total_usage_kwh": 81467.39,
+          "observations": 1460,
+          "hour_label": "16:00"
+        },
+        {
+          "hour": 17,
+          "average_interval_kwh": 43.83309589041096,
+          "total_usage_kwh": 63996.32,
+          "observations": 1460,
+          "hour_label": "17:00"
+        },
+        {
+          "hour": 18,
+          "average_interval_kwh": 33.020931506849315,
+          "total_usage_kwh": 48210.56,
+          "observations": 1460,
+          "hour_label": "18:00"
+        },
+        {
+          "hour": 19,
+          "average_interval_kwh": 38.208513698630135,
+          "total_usage_kwh": 55784.43,
+          "observations": 1460,
+          "hour_label": "19:00"
+        },
+        {
+          "hour": 20,
+          "average_interval_kwh": 37.47722602739726,
+          "total_usage_kwh": 54716.75,
+          "observations": 1460,
+          "hour_label": "20:00"
+        },
+        {
+          "hour": 21,
+          "average_interval_kwh": 13.777363013698631,
+          "total_usage_kwh": 20114.95,
+          "observations": 1460,
+          "hour_label": "21:00"
+        },
+        {
+          "hour": 22,
+          "average_interval_kwh": 8.658917808219178,
+          "total_usage_kwh": 12642.02,
+          "observations": 1460,
+          "hour_label": "22:00"
+        },
+        {
+          "hour": 23,
+          "average_interval_kwh": 7.998013698630137,
+          "total_usage_kwh": 11677.1,
+          "observations": 1460,
+          "hour_label": "23:00"
         }
       ],
       "source": {
-        "label": "浪费稽核场景",
+        "label": "UCI Steel Industry Energy Consumption",
         "tables": [
-          "waste_audit.csv"
+          "Steel_industry_data.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "waste_monthly": {
+    "energy_by_load_type": {
       "rows": [
         {
-          "month": "2026-01-01",
-          "waste_amount": 59721.26,
-          "incidents": 53
+          "Load_Type": "Light_Load",
+          "usage_kwh": 155892.81,
+          "average_interval_kwh": 8.626206839309429,
+          "observations": 18072,
+          "co2_tonnes": 46.15,
+          "energy_share": 0.16244981916125323
         },
         {
-          "month": "2026-02-01",
-          "waste_amount": 93594.6,
-          "incidents": 60
+          "Load_Type": "Maximum_Load",
+          "usage_kwh": 430977.36,
+          "average_interval_kwh": 59.26531353135314,
+          "observations": 7272,
+          "co2_tonnes": 195.61,
+          "energy_share": 0.4491047033830125
         },
         {
-          "month": "2026-03-01",
-          "waste_amount": 80558.94,
-          "incidents": 40
-        },
-        {
-          "month": "2026-04-01",
-          "waste_amount": 97994.17,
-          "incidents": 59
-        },
-        {
-          "month": "2026-05-01",
-          "waste_amount": 89595.25,
-          "incidents": 47
-        },
-        {
-          "month": "2026-06-01",
-          "waste_amount": 78840.96,
-          "incidents": 54
-        },
-        {
-          "month": "2026-07-01",
-          "waste_amount": 47674.78,
-          "incidents": 40
-        },
-        {
-          "month": "2026-08-01",
-          "waste_amount": 134766.38999999998,
-          "incidents": 50
-        },
-        {
-          "month": "2026-09-01",
-          "waste_amount": 116643.35,
-          "incidents": 47
-        },
-        {
-          "month": "2026-10-01",
-          "waste_amount": 110830.54000000001,
-          "incidents": 58
-        },
-        {
-          "month": "2026-11-01",
-          "waste_amount": 121700.0,
-          "incidents": 54
-        },
-        {
-          "month": "2026-12-01",
-          "waste_amount": 95608.62,
-          "incidents": 38
+          "Load_Type": "Medium_Load",
+          "usage_kwh": 372766.54,
+          "average_interval_kwh": 38.44539397689769,
+          "observations": 9696,
+          "co2_tonnes": 162.05,
+          "energy_share": 0.38844547745573427
         }
       ],
       "source": {
-        "label": "月度浪费趋势场景",
+        "label": "UCI Steel Industry Energy Consumption",
         "tables": [
-          "waste_audit.csv"
+          "Steel_industry_data.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
         ],
         "metricDefinitions": [],
-        "classification": "synthetic_scenario"
+        "classification": "observed_public_real_data"
       }
     },
-    "scrap_by_reason": {
+    "energy_by_week_status": {
       "rows": [
         {
-          "reason": "Color incorrect",
-          "scrap_loss_amount": 36228.6967,
-          "scrap_quantity": 491,
-          "work_orders": 44
+          "WeekStatus": "Weekday",
+          "usage_kwh": 842501.16,
+          "average_interval_kwh": 33.62472701149425,
+          "observations": 25056
         },
         {
-          "reason": "Trim length too long",
-          "scrap_loss_amount": 34910.543,
-          "scrap_quantity": 981,
-          "work_orders": 52
-        },
-        {
-          "reason": "Thermoform temperature too low",
-          "scrap_loss_amount": 33208.325899999996,
-          "scrap_quantity": 876,
-          "work_orders": 63
-        },
-        {
-          "reason": "Drill size too large",
-          "scrap_loss_amount": 30444.8203,
-          "scrap_quantity": 506,
-          "work_orders": 42
-        },
-        {
-          "reason": "Gouge in metal",
-          "scrap_loss_amount": 28735.8845,
-          "scrap_quantity": 575,
-          "work_orders": 54
-        },
-        {
-          "reason": "Thermoform temperature too high",
-          "scrap_loss_amount": 25904.0086,
-          "scrap_quantity": 394,
-          "work_orders": 37
-        },
-        {
-          "reason": "Wheel misaligned",
-          "scrap_loss_amount": 23570.8021,
-          "scrap_quantity": 804,
-          "work_orders": 51
-        },
-        {
-          "reason": "Drill size too small",
-          "scrap_loss_amount": 19284.6642,
-          "scrap_quantity": 826,
-          "work_orders": 44
-        },
-        {
-          "reason": "Stress test failed",
-          "scrap_loss_amount": 19069.7487,
-          "scrap_quantity": 306,
-          "work_orders": 52
-        },
-        {
-          "reason": "Drill pattern incorrect",
-          "scrap_loss_amount": 18519.3601,
-          "scrap_quantity": 762,
-          "work_orders": 45
-        },
-        {
-          "reason": "Trim length too short",
-          "scrap_loss_amount": 18318.6216,
-          "scrap_quantity": 763,
-          "work_orders": 48
-        },
-        {
-          "reason": "Brake assembly not as ordered",
-          "scrap_loss_amount": 18212.7383,
-          "scrap_quantity": 459,
-          "work_orders": 44
+          "WeekStatus": "Weekend",
+          "usage_kwh": 117135.55,
+          "average_interval_kwh": 11.73232672275641,
+          "observations": 9984
         }
       ],
       "source": {
-        "label": "AdventureWorks 报废原因",
+        "label": "UCI Steel Industry Energy Consumption",
         "tables": [
-          "WorkOrder.csv",
-          "Product.csv",
-          "ScrapReason.csv"
+          "Steel_industry_data.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation."
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
         ],
         "metricDefinitions": [],
-        "classification": "observed_fictional_sample"
+        "classification": "observed_public_real_data"
       }
     },
-    "purchase_price_variance": {
+    "energy_peak_days": {
       "rows": [
         {
-          "product_id": 930,
-          "product_name": "HL Mountain Tire",
-          "purchase_price_variance": 1451590.525,
-          "order_quantity": 48950,
-          "purchase_orders": 89
+          "day": "2018-01-18",
+          "usage_kwh": 7353.84,
+          "co2_tonnes": 3.42
         },
         {
-          "product_id": 932,
-          "product_name": "ML Road Tire",
-          "purchase_price_variance": 1424296.06,
-          "order_quantity": 47300,
-          "purchase_orders": 86
+          "day": "2018-01-19",
+          "usage_kwh": 7175.1,
+          "co2_tonnes": 3.3
         },
         {
-          "product_id": 931,
-          "product_name": "LL Road Tire",
-          "purchase_price_variance": 1254772.8599999999,
-          "order_quantity": 47300,
-          "purchase_orders": 86
+          "day": "2018-01-26",
+          "usage_kwh": 7069.29,
+          "co2_tonnes": 3.31
         },
         {
-          "product_id": 929,
-          "product_name": "ML Mountain Tire",
-          "purchase_price_variance": 1251884.315,
-          "order_quantity": 48950,
-          "purchase_orders": 89
+          "day": "2018-02-22",
+          "usage_kwh": 6161.2,
+          "co2_tonnes": 2.75
         },
         {
-          "product_id": 933,
-          "product_name": "HL Road Tire",
-          "purchase_price_variance": 1231086.505,
-          "order_quantity": 39050,
-          "purchase_orders": 71
+          "day": "2018-01-31",
+          "usage_kwh": 6141.44,
+          "co2_tonnes": 2.7800000000000002
         },
         {
-          "product_id": 936,
-          "product_name": "ML Mountain Pedal",
-          "purchase_price_variance": 1162476.1499999994,
-          "order_quantity": 56100,
-          "purchase_orders": 102
+          "day": "2018-02-01",
+          "usage_kwh": 6114.66,
+          "co2_tonnes": 2.72
         },
         {
-          "product_id": 928,
-          "product_name": "LL Mountain Tire",
-          "purchase_price_variance": 1132177.0899999999,
-          "order_quantity": 48950,
-          "purchase_orders": 89
+          "day": "2018-02-20",
+          "usage_kwh": 5853.61,
+          "co2_tonnes": 2.6
         },
         {
-          "product_id": 934,
-          "product_name": "Touring Tire",
-          "purchase_price_variance": 1055834.01,
-          "order_quantity": 39050,
-          "purchase_orders": 71
+          "day": "2018-01-29",
+          "usage_kwh": 5548.65,
+          "co2_tonnes": 2.45
         },
         {
-          "product_id": 939,
-          "product_name": "ML Road Pedal",
-          "purchase_price_variance": 1025714.2499999995,
-          "order_quantity": 49500,
-          "purchase_orders": 90
+          "day": "2018-01-09",
+          "usage_kwh": 5488.37,
+          "co2_tonnes": 2.47
         },
         {
-          "product_id": 907,
-          "product_name": "Rear Brakes",
-          "purchase_price_variance": 977583.7500000001,
-          "order_quantity": 27500,
-          "purchase_orders": 50
-        },
-        {
-          "product_id": 948,
-          "product_name": "Front Brakes",
-          "purchase_price_variance": 977583.7500000001,
-          "order_quantity": 27500,
-          "purchase_orders": 50
-        },
-        {
-          "product_id": 941,
-          "product_name": "Touring Pedal",
-          "purchase_price_variance": 758188.695,
-          "order_quantity": 28050,
-          "purchase_orders": 51
+          "day": "2018-02-21",
+          "usage_kwh": 5455.38,
+          "co2_tonnes": 2.39
         }
       ],
       "source": {
-        "label": "AdventureWorks 采购价格差异",
+        "label": "UCI Steel Industry Energy Consumption",
         "tables": [
-          "PurchaseOrderDetail.csv",
-          "Product.csv"
+          "Steel_industry_data.csv"
         ],
         "filters": [
-          "Portfolio demonstration dataset; reporting year 2026 for scenario tables"
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
         ],
         "assumptions": [
-          "AdventureWorks records are Microsoft fictional teaching data, not a real company's results.",
-          "Budget, stocktake, project and waste records are reproducible scenarios generated with seed 20260922.",
-          "Currency values are scenario units and are displayed as ¥-equivalent solely for portfolio presentation.",
-          "Excluded 6892 purchase lines whose standard cost was zero; their price variance has no usable baseline."
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
         ],
         "metricDefinitions": [],
-        "classification": "observed_fictional_sample"
+        "classification": "observed_public_real_data"
+      }
+    },
+    "data_quality": {
+      "rows": [
+        {
+          "dataset": "USAID 发运明细",
+          "check": "行数",
+          "result": "10324",
+          "status": "pass"
+        },
+        {
+          "dataset": "USAID 发运明细",
+          "check": "完全重复行",
+          "result": "0",
+          "status": "pass"
+        },
+        {
+          "dataset": "USAID 发运明细",
+          "check": "交付日期可解析率",
+          "result": "100.0%",
+          "status": "pass"
+        },
+        {
+          "dataset": "USAID 发运明细",
+          "check": "运费可数值化率",
+          "result": "60.0%",
+          "status": "caution"
+        },
+        {
+          "dataset": "USAID 发运明细",
+          "check": "重量可数值化率",
+          "result": "61.7%",
+          "status": "caution"
+        },
+        {
+          "dataset": "UCI 钢厂能耗",
+          "check": "行数",
+          "result": "35040",
+          "status": "pass"
+        },
+        {
+          "dataset": "UCI 钢厂能耗",
+          "check": "时间戳重复",
+          "result": "0",
+          "status": "pass"
+        },
+        {
+          "dataset": "UCI 钢厂能耗",
+          "check": "时间戳可解析率",
+          "result": "100.0%",
+          "status": "pass"
+        }
+      ],
+      "source": {
+        "label": "本地数据质量检查",
+        "tables": [
+          "src/real_data_pipeline.py"
+        ],
+        "filters": [
+          "USAID: 2006–2015 delivery history; UCI: 2018 full-year 15-minute observations"
+        ],
+        "assumptions": [
+          "USAID records are real public administrative shipment data, not data from the portfolio author's employer.",
+          "The original USAID portal is currently unavailable; the local CSV was retrieved from a public mirror and is identified by original portal dataset ID a3rc-nmf6.",
+          "Freight Cost contains text states such as 'included in commodity cost' and 'invoiced separately'; only directly numeric rows are summed.",
+          "USAID cautions against using the data to infer precise item/country transport cost or lead-time causality; this project reports descriptive patterns only.",
+          "UCI observations come from a steel facility in South Korea and represent real 2018 electricity-use measurements.",
+          "No verified electricity tariff is supplied, so this project reports kWh and CO2 rather than inventing a monetary energy cost."
+        ],
+        "metricDefinitions": [],
+        "classification": "observed_public_real_data"
       }
     }
   }

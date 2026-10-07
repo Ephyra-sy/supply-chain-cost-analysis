@@ -1,0 +1,11 @@
+parameter,value,unit,editable,evidence_type
+peak_hours,09-17,hour ranges,True,user_assumption_not_observed_tariff
+shoulder_hours,"07-09,17-22",hour ranges,True,user_assumption_not_observed_tariff
+peak_tariff_cny_per_kwh,0.9,CNY/kWh,True,user_assumption_not_observed_tariff
+shoulder_tariff_cny_per_kwh,0.6,CNY/kWh,True,user_assumption_not_observed_tariff
+offpeak_tariff_cny_per_kwh,0.3,CNY/kWh,True,user_assumption_not_observed_tariff
+demand_charge_cny_per_kw_month,40.0,CNY/kW-month,True,user_assumption_not_observed_tariff
+load_shift_share_of_peak_kwh,0.05,share (0-1),True,user_assumption_not_observed_tariff
+peak_shave_share_of_monthly_peak_kw,0.03,share (0-1),True,user_assumption_not_observed_tariff
+interval_minutes,15,minutes,False,source_observation_grain
+peak_demand_method,monthly maximum 15-minute kWh × 4,kW,False,derived_from_interval_grain
